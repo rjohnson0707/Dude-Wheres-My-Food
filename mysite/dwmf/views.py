@@ -6,13 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck
+from .models import Truck, User
 
 def home(request):
     return render(request, 'home.html')
 
 ##########################class views
-class TruckCreate(CreateView):
+class TruckCreate(LoginRequiredMixin, CreateView):
     model = Truck
     fields= ['name', 'style', ]
 
@@ -20,10 +20,13 @@ class TruckCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class TruckDetail(DetailView):
+class TruckDetail(LoginRequiredMixin, DetailView):
     model = Truck
     
-
+# class TruckInfo(DetailView):
+#     model = Truck
+#     def get(self, request):
+#         return render(request, 'trucks_detail.html')
 
 ##########################view definitions here
 def signup(request):
@@ -40,9 +43,18 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+def profile(request):
+    user = User
+    print(user)
+    return render(request, 'registration/profile.html', {'user': user})
+
 def trucks_index(request):
     trucks = Truck.objects.all()
     return render(request, 'trucks/index.html', {'trucks': trucks })
+
+def trucks_info(request, truck_id):
+    truck = Truck.objects.get(id=truck_id)
+    return render(request, 'trucks/index_detail.html', {'truck': truck})
 
 
 

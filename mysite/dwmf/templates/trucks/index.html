@@ -2,15 +2,19 @@
 {% block content %}
 
 <h1>Index Page</h1>
-<div class="card">
-    <a href="/trucks/{{ truck.id }}">
+{%for ft in trucks%}
+
+  <div class="card">
+    <a href="{%url 'index_detail' ft.id%}">
       <div class="card-content">
-        <span class="card-title">{{ truck.name }}</span>
-        <p>Name: {{ truck.name }}</p>
-        <p>Style: {{ truck.style }}</p>
+        <span class="card-title">{{ ft.name }}</span>
+        <p>Name: {{ ft.name }}</p>
+        <p>Style: {{ ft.style }}</p>
       </div>
     </a>
+    
   </div>
+  {%endfor%}
 
 
 
