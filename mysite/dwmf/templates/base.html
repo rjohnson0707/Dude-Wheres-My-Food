@@ -18,6 +18,7 @@
         <div class="nav-wrapper">
             <ul class="right">
                 {% if user.is_authenticated %}
+                <li><a href="{%url 'truck_register'%}">Register a Truck</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">Log In</a></li>
