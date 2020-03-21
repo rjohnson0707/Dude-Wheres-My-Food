@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
-
 <h1>Index Page</h1>
+<div class="card">
+    <a href="/trucks/{{ truck.id }}">
+      <div class="card-content">
+        <span class="card-title">{{ truck.name }}</span>
+        <p>Name: {{ truck.name }}</p>
+        <p>Style: {{ truck.style }}</p>
+      </div>
+    </a>
+  </div>
+
 
 
 

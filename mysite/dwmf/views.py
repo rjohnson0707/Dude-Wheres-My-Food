@@ -41,7 +41,8 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 def trucks_index(request):
-    return render(request, 'trucks/index.html')
+    trucks = Truck.objects.all()
+    return render(request, 'trucks/index.html', {'trucks': trucks })
 
 
 

@@ -9,21 +9,22 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <div class="navbar-fixed">
-            <h1>Dude Where's My Food?</h1>
+    <nav>
+        <div class="nav-wrapper logo">
+            <a href="#!" class="brand-logo">Dude! Where's My Food?</a>
         </div>
-    </header>
+      </nav>
     <nav>
         <div class="nav-wrapper">
             <ul class="right">
                 {% if user.is_authenticated %}
-                <li><a href="{%url 'truck_register'%}">Register a Truck</a></li>
+                <li><a href="{%url 'truck_register' %}">Register a Truck</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">Log In</a></li>
                 <li><a href="{% url 'signup' %}">Sign Up</a></li>
                 {% endif %}
+                <li><a href="{% url 'index' %}">Food Trucks</a></li>
             </ul>
         </div>
     </nav>
