@@ -15,6 +15,5 @@ urlpatterns = [
     path('truck/<int:truck_id>/', views.truck_detail, name='truck_detail'),
     path('truck/<int:truck_id>/create', views.menu_create, name='menu_create'),
     path('truck/<int:truck_id>/create/menu_new', views.menu_new, name='menu_new'),
-    path('truck/<int:truck_id>/add_calendar', views.add_calendar, name='add_calendar'),
-    
+    path('truck/<int:truck_id>/add_calendar', views.add_calendar, name='add_calendar'),  
 ]

@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from datetime import date
+from datetime import date, time
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -17,17 +17,10 @@ class Truck(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('truck_detail', kwargs={'pk': self.id})
+        return reverse('truck_detail', kwargs={'truck_id': self.id})
 
 
 
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500)
-    image = models.ImageField(upload_to='profile_image', blank=True)
-
-    trucks = models.ManyToManyField(Truck)
 class Menu(models.Model):
     food_name = models.CharField(max_length=50)
     description = models.CharField(max_length=250)
@@ -47,19 +40,18 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50)
     truck_owner = models.BooleanField(default=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500)
+    image = models.ImageField(upload_to='profile_image', blank=True)
+
+    trucks = models.ManyToManyField(Truck)
 
     def __str__(self):
         return self.user.username
 
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = UserProfile.objects.create(user=kwargs['instance'])
-
-post_save.connect(create_profile, sender=User)
 
 class Calendar(models.Model):
     date = models.DateField()
-    time = models.TimeField
+    time = models.TimeField()
     location = models.CharField(max_length=250)
 
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE)

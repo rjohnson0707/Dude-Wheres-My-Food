@@ -1,8 +1,9 @@
 from django import forms
-<<<<<<< HEAD
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserChangeForm
-from .models import UserProfile
+from django.forms import ModelForm
+from django.db import models
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import Profile, Menu, Calendar
 
 class EditProfile(UserChangeForm):
 
@@ -15,6 +16,11 @@ class EditProfile(UserChangeForm):
             'email',
             'password',
             )
+    # class Meta:
+    #     model = Profile
+    #     fields = (
+    #         'bio',
+    #     )
             
     def save(self, commit=True):
         user = super(EditProfile, self).save(commit=False)
@@ -29,16 +35,11 @@ class EditProfile(UserChangeForm):
 
 
 
-=======
-from django.forms import ModelForm
-from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Menu, Calendar
 
 
 class ExtendedUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    
     
 
     class Meta:
@@ -68,4 +69,3 @@ class CalendarForm(ModelForm):
     class Meta:
         model = Calendar
         fields = ['date', 'time', 'location']
->>>>>>> c03132e9fc103bf95a617f8531ce01a43e1ebf7d

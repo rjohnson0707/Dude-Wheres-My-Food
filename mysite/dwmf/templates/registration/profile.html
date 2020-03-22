@@ -4,11 +4,10 @@
 <div class="container">
     <h1>Profile Page</h1>
     <p>Username: {{ user.username}}</p>
-    <p>First Name: {{ user.first_name }}</p>
-    <p>Last Name: {{ user.last_name }}</p>
+    <p>First Name: {{ user.profile.first_name }}</p>
+    <p>Last Name: {{ user.profile.last_name }}</p>
     <p>Email: {{ user.email }}</p>
 </div>
-<!-- <img src="{{ user.userprofile.image.url }}" width="240"> -->
 <a href="{% url 'edit_profile' %}">Edit Information?</a>
 <form action="#">
     <div class="file-field input-field">
