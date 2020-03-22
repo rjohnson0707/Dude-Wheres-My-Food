@@ -1,16 +1,15 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu, Calendar
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile
 
 
-##########################New SignUp Form
 
 #########################################
 def home(request):
@@ -25,6 +24,9 @@ class TruckCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
+##########################view definitions here
+
 def truck_detail(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
     calendar_form = CalendarForm()
@@ -32,8 +34,6 @@ def truck_detail(request, truck_id):
         'truck': truck,
         'calendar_form': calendar_form
         })
-
-##########################view definitions here
 
 def menu_create(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
@@ -49,7 +49,7 @@ def menu_new(request, truck_id):
         new_menu = form.save(commit=False)
         new_menu.truck_id = truck.id
         new_menu.save()
-    return redirect('truck_detail', pk=truck_id)
+    return redirect('truck_detail', truck_id=truck_id)
 
 def signup(request):
     error_message = ''
@@ -78,10 +78,17 @@ def signup(request):
     context = {'form': form, 'profile_form': profile_form,'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+def profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    trucks = Truck.objects.all()
+    return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks})
 
-def profile(request):
-    user = User
-    return render(request, 'registration/profile.html', {'user': user})
+# def assoc_truck(request, user_id, truck_id):
+#     UserProfile.objects.get(id=user_id).trucks.add(truck_id)
+#     return redirect('profile', user_id=user_id)
 
 def trucks_index(request):
     trucks = Truck.objects.all()
@@ -102,5 +109,13 @@ def add_calendar(request, truck_id):
         new_calendar.save()
     return redirect('truck_detail', truck_id=truck_id)
 
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfile(request.POST, instance=request.user)
 
-
+        if form.is_valid():
+            form.save()
+            return redirect('/profile')
+    else:
+        form = EditProfile(instance=request.user)
+        return render(request, 'registration/edit_profile.html', {'form': form})
