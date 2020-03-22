@@ -42,7 +42,7 @@ class Profile(models.Model):
 
 class Calendar(models.Model):
     date = models.DateField()
-    time = models.TimeField
+    time = models.TimeField()
     location = models.CharField(max_length=250)
 
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE)
