@@ -3,11 +3,11 @@
 {%block content%}
 <h1>Create a Menu Item</h1>
 
-<form action="" method="post">
+<form action="{% url 'menu_new' truck.id%}" method="post">
+    
     {%csrf_token%}
     <table>
-        {{form.as_table}}
-        {{%truck_id=truck.id%}}
+        {{menu_form.as_p}}
     </table>
     <input type="submit" value="Register" class="btn">
 </form>

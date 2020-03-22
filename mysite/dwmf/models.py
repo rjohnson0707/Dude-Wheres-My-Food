@@ -3,11 +3,6 @@ from django.urls import reverse
 from datetime import date
 from django.contrib.auth.models import User
 
-CHOICES = (
-    ('Y', 'Yes'),
-    ('N', 'No'),
-)
-
 
 class Truck(models.Model):
     name = models.CharField(max_length=50)
@@ -24,15 +19,17 @@ class Truck(models.Model):
 
 class Menu(models.Model):
     food_name = models.CharField(max_length=50)
-    description = models.CharField(max_length=50)
+    description = models.CharField(max_length=250)
     price = models.IntegerField()
+    
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE)
+    print(truck)
 
     def __str__(self):
         return self.food_name
     
     def get_absolute_url(self):
-        return revers('truck_detail', kwargs={'pk': self.truck.id})
+        return reverse('truck_detail', truck_id=truck_id)
 
 class Profile(models.Model):
     first_name = models.CharField(max_length=50)

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu
-from .forms import ExtendedUserCreationForm, ProfileForm
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm
 
 
 ##########################New SignUp Form
@@ -28,16 +28,25 @@ class TruckCreate(LoginRequiredMixin, CreateView):
 class TruckDetail(LoginRequiredMixin, DetailView):
     model = Truck
 
-class MenuCreate(LoginRequiredMixin, CreateView):
-    model = Menu
-    fields = ['food_name','description','price']
-      
-# class TruckInfo(DetailView):
-#     model = Truck
-#     def get(self, request):
-#         return render(request, 'trucks_detail.html')
 
 ##########################view definitions here
+
+def menu_create(request, truck_id):
+    truck = Truck.objects.get(id=truck_id)
+    menu_form = MenuForm()
+
+    return render(request, 'dwmf/menu_form.html',{'truck':truck, 'menu_form': menu_form})
+
+def menu_new(request, truck_id):
+    truck = Truck.objects.get(id=truck_id)
+    form = MenuForm(request.POST)
+
+    if form.is_valid():
+        new_menu = form.save(commit=False)
+        new_menu.truck_id = truck.id
+        new_menu.save()
+    return redirect('truck_detail', pk=truck_id)
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -68,7 +77,6 @@ def signup(request):
 
 def profile(request):
     user = User
-    print(user)
     return render(request, 'registration/profile.html', {'user': user})
 
 def trucks_index(request):
