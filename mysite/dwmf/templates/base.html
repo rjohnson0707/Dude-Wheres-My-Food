@@ -16,19 +16,24 @@
       </nav>
     <nav>
         <div class="nav-wrapper">
+            {% if user.is_authenticated %}
             <ul class="left">
+                {%if user.truck_set.count%}
+                <li><a href="{%url 'truck_detail' user.truck_set.first.id%}">Update Your Truck</a></li>
+                {%else%}
                 <li><a href="{%url 'truck_register' %}">Register a Truck</a></li>
+                {%endif%}
             </ul>
             <ul class="right">
                 <li><a href="{% url 'index' %}">Food Trucks</a></li>
-                {% if user.is_authenticated %}
-               
                 <li><a href="{%url 'profile'%}">User Profile</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
-                {% else %}
+            </ul>
+            {% else %}
+            <ul class="right">
                 <li><a href="{% url 'login' %}">Log In</a></li>
                 <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                {% endif %}    
+            {% endif %}    
             </ul>
         </div>
     </nav>
