@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck, User
+from .models import Truck, User, UserProfile
+from .forms import EditProfile
 
 def home(request):
     return render(request, 'home.html')
@@ -43,10 +44,17 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-def profile(request):
-    user = User
-    print(user)
-    return render(request, 'registration/profile.html', {'user': user})
+def profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    trucks = Truck.objects.all()
+    return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks})
+
+# def assoc_truck(request, user_id, truck_id):
+#     UserProfile.objects.get(id=user_id).trucks.add(truck_id)
+#     return redirect('profile', user_id=user_id)
 
 def trucks_index(request):
     trucks = Truck.objects.all()
@@ -57,5 +65,13 @@ def trucks_info(request, truck_id):
     return render(request, 'trucks/index_detail.html', {'truck': truck})
 
 
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfile(request.POST, instance=request.user)
 
-
+        if form.is_valid():
+            form.save()
+            return redirect('/profile')
+    else:
+        form = EditProfile(instance=request.user)
+        return render(request, 'registration/edit_profile.html', {'form': form})

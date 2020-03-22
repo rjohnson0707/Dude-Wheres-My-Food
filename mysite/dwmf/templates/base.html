@@ -23,7 +23,7 @@
                 <li><a href="{% url 'index' %}">Food Trucks</a></li>
                 {% if user.is_authenticated %}
                
-                <li><a href="{%url 'profile'%}">User Profile</a></li>
+                <li><a href="{%url 'profile'%}">{{ user.first_name }}</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">Log In</a></li>
