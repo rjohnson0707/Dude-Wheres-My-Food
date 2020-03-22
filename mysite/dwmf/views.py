@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck, User, Profile, Menu
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm
+from .models import Truck, User, Profile, Menu, Calendar
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm
 
 
 ##########################New SignUp Form
@@ -25,9 +25,13 @@ class TruckCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class TruckDetail(LoginRequiredMixin, DetailView):
-    model = Truck
-
+def truck_detail(request, truck_id):
+    truck = Truck.objects.get(id=truck_id)
+    calendar_form = CalendarForm()
+    return render(request, 'dwmf/truck_detail.html', {
+        'truck': truck,
+        'calendar_form': calendar_form
+        })
 
 ##########################view definitions here
 
@@ -87,6 +91,16 @@ def trucks_info(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
     return render(request, 'trucks/index_detail.html', {'truck': truck})
 
+def add_calendar(request, truck_id):
+   
+    form = CalendarForm(request.POST)
+
+    if form.is_valid():
+
+        new_calendar = form.save(commit=False)
+        new_calendar.truck_id = truck_id
+        new_calendar.save()
+    return redirect('truck_detail', truck_id=truck_id)
 
 
 

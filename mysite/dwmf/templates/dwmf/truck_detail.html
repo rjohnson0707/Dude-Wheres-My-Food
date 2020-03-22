@@ -2,24 +2,47 @@
 {% block content %}
 
 
+<div class="container">
+    <h1>Truck Detail Page</h1>
+        <div>{{truck.name}}</div>
+        <div>{{truck.style}}</div>
+        <div>{{truck.user}}</div>
 
-<h1>Truck Detail Page</h1>
-    <div>{{truck.name}}</div>
-    <div>{{truck.style}}</div>
-    <div>{{truck.user}}</div>
 
 
+    <h2>Menu Items</h2>
+    <a href="{%url 'menu_create' truck.id%}">Create Menu Item</a>
+    <br>
+    {%for item in truck.menu_set.all%}
+    {{item.food_name}}
+    {{item.description}}
+    {{item.price}}
+    <br>
+    {%endfor%}
+    <h2>Image upload</h2>
 
-<h2>Menu Items</h2>
-<a href="{%url 'menu_create' truck.id%}">Create Menu Item</a>
-<br>
-{%for item in truck.menu_set.all%}
-{{item.food_name}}
-{{item.description}}
-{{item.price}}
-<br>
-{%endfor%}
-<h2>Image upload</h2>
-<h2>calendar</h2>
+    <div class="container right s6">
+        <form action="{%url 'add_calendar' truck.id%}" method="post">
+            {%csrf_token%}
+            {{calendar_form.as_p}}
+            <input type="submit" class="btn" value="Add Date">
+        </form>
+        <ul class="collection">
+            <li class="collection-header s6">Calendar</li>
+            <li class="collection-item">content here</li>
+        </ul>
+    </div>
+</div>  
 
+
+<script>
+    // create a datepicker
+    var dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+  </script>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Menu
+from .models import Profile, Menu, Calendar
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -32,3 +32,8 @@ class MenuForm(ModelForm):
     class Meta:
         model = Menu
         fields =['food_name', 'description', 'price']
+
+class CalendarForm(ModelForm):
+    class Meta:
+        model = Calendar
+        fields = ['date', 'time', 'location']
