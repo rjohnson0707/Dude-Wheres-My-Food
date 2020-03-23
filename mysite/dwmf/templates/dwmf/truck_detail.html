@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Main Truck Info -->
+<div class="row">
+    <div class="col s6">
+        <div class="container">
+            <h1>{{truck.name}}</h1>
+                <div>{{truck.style}}</div>
+                <div>{{truck.user}}</div>
+        </div>
+    </div>
+
+    <!-- Photo container and info -->
+    <div class="col s6">
+        <div class="container">
+            <h2>Image upload</h2>
+            <form action="{% url 'profile_photo' user.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="photo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Photo">
+              </form>
+        </div>
+    </div>  
+</div>
+
+<!-- Menu container and information -->
+<div class="row ">
+    <div class="col s6">
+        <div class="container">
+            <h1 class="center">Menu Items</h1>
+            <a href="{%url 'menu_create' truck.id%}">Create Menu Item</a>
+            <div class="row">
+            {%for item in truck.menu_set.all%}
+                <div class="col s12 m6">
+                    <div class="card small">
+                        <div class="card-content">
+                            <span class="card-title">{{item.food_name}}</span>
+                            <div class="card-content">
+                                <p>{{item.description}}</p>
+                                <p>${{item.price}}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            {%endfor%}
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar container and informations -->
+    <div class="col s6 center">
+  
+        <div class="container row">
+            <h1>Your Calendar</h1>
+            {%for calendar in truck.calendar_set.all%}
+            <ul class="collection col s4">
+                <li class="collection-header center"><span>{{calendar.date}}</span></li>
+                <li class="collection-item center">Start Time: {{calendar.start_time}}  |  End Time: {{calendar.end_time}}</li>
+                <li class="collection-item center">{{calendar.location}}</li>
+            </ul>
+            {%endfor%}
+        </div>
+        <br>
+        <div class="container row">
+            <!-- <h1>New Calendar Date</h1> -->
+            <form action="{%url 'add_calendar' truck.id%}" method="post">
+                {%csrf_token%}
+                {{calendar_form.as_p}}
+                <input type="submit" class="btn" value="Add Date">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Scrpit for date and timepicker -->
+<script>
+    // create a datepicker
+    var dateEl = document.getElementById('id_date');
+    console.log(dateEl)
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+    
+    var start = document.getElementById('id_start_time');
+    M.Timepicker.init(start, {
+        defaultTime: 'now',
+        autoClose: true
+    });
+    var end = document.getElementById('id_end_time');
+    M.Timepicker.init(end, {
+        defaultTime: 'now',
+        autoClose: true
+    });
+  </script>
+{% endblock %}

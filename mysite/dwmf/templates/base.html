@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,22 +8,37 @@
     <title>Dude Where's My Food?</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <header>
-        <div class="navbar-fixed">
-            <h1>Dude Where's My Food?</h1>
+    <nav>
+        <div class="nav-wrapper logo">
+            <a href="#!" class="brand-logo">Dude! Where's My Food?</a>
         </div>
-    </header>
+      </nav>
     <nav>
         <div class="nav-wrapper">
-            <ul class="right">
                 {% if user.is_authenticated %}
+            <ul class="left">
+                {%if user.truck_set.count%}
+                <li><a href="{%url 'truck_detail' user.truck_set.first.id%}">Update Your Truck</a></li>
+                {%else%}
+                <li><a href="{%url 'truck_register' %}">Register a Truck</a></li>
+                {%endif%}
+            </ul>
+            {%endif%}
+            <ul class="right">
+                <li><a href="{% url 'index' %}">Food Trucks</a></li>
+                {% if user.is_authenticated %}
+               
+                <li><a href="{%url 'profile'%}">{{ user.profile.first_name }}</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
-                {% else %}
+            </ul>
+            {% else %}
+            <ul class="right">
                 <li><a href="{% url 'login' %}">Log In</a></li>
                 <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                {% endif %}
+            {% endif %}    
             </ul>
         </div>
     </nav>

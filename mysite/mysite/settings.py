@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dwmf'
+    'dwmf',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +123,9 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/trucks/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mysite/media')
+
+

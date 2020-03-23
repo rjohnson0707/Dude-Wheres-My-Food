@@ -29,7 +29,15 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField(max_length=500)),
+<<<<<<< HEAD
                 ('created_date', models.DateTimeField(default=datetime.datetime(2020, 3, 23, 9, 5, 49, 100026))),
+=======
+<<<<<<< HEAD
+                ('created_date', models.DateTimeField(default=datetime.datetime(2020, 3, 23, 11, 0, 18, 539065))),
+=======
+                ('created_date', models.DateTimeField(default=datetime.datetime(2020, 3, 23, 9, 5, 49, 100026))),
+>>>>>>> master
+>>>>>>> master
                 ('truck', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='dwmf.Truck')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

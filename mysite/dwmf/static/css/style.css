@@ -1,0 +1,18 @@
+.logo {
+    background-color: maroon;
+}
+
+.profile {
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+    border: 2px solid black;
+}
+
+.right-div {
+    float: right;
+}
+
+.review {
+    margin: 20px 0px 20px 20px;
+}

@@ -7,10 +7,15 @@
 
 <form action="{% url 'signup' %}" method="post">
     {% csrf_token %}
+    {{ profile_form.as_p }}
     {{ form.as_p }}
     <input type="submit" value="signup">
 </form>
 
 
-
+<!-- <script>
+      // initialize the meal select
+    var selectEl = document.getElementById('id_truck_owner');
+    M.FormSelect.init(selectEl);
+  </script> -->
 {% endblock %}
