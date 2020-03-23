@@ -66,4 +66,4 @@ class MenuForm(ModelForm):
 class CalendarForm(ModelForm):
     class Meta:
         model = Calendar
-        fields = ['date', 'time', 'location']
+        fields = ['date', 'start_time', 'end_time', 'location']

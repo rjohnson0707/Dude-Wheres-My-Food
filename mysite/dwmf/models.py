@@ -60,7 +60,8 @@ class ProfilePhoto(models.Model):
 
 class Calendar(models.Model):
     date = models.DateField()
-    time = models.CharField(max_length=50)
+    start_time = models.CharField(max_length=50)
+    end_time = models.CharField(max_length=50)
     location = models.CharField(max_length=250)
 
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE)

@@ -11,7 +11,7 @@
 <a href="{% url 'edit_profile' %}">Edit Information?</a>
 <div id="profile">
   {% for photo in user.profilephoto_set.all %}
-  <img class="profile" src="{{photo.url}}" style="border-radius: 50%; height: 250px; width: 250px;>
+  <img class="profile" src="{{photo.url}}" style="border-radius: 50%; height: 250px; width: 250px;">
 {% empty %}
 <div class="card-panel teal-text center-align">No Photos Uploaded</div>
 {% endfor %}
