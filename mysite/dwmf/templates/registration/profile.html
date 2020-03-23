@@ -3,30 +3,27 @@
 
 <div class="container">
   <div class="right-div">
-    {% if user.profilephoto_set.all|length > 1 %}
-    <div>Too Many Photos Uploaded</div>
-    {% endif %}
     {% for photo in user.profilephoto_set.all %}
     <img class="profile" src="{{photo.url}}">
     {% empty %}
     <div>No Photos Uploaded</div>
     {% endfor %}
+    {% if user.profilephoto_set.all|length > 0%}
+    {% else%}
     <form action="{% url 'profile_photo' user.id %}" enctype="multipart/form-data" method="POST">
       {% csrf_token %}
       <input type="file" name="photo-file">
       <br><br>
       <input type="submit" class="btn" value="Upload Photo">
     </form>
+    {% endif %}
   </div>
   <h1>{{ user.profile.first_name }} {{ user.profile.last_name }}</h1>
   <p>Username: {{ user.username}}</p>
   <p>Email: {{ user.email }}</p>
   <p>Bio: {{ user.profile.bio }}</p>
 </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 <div><a href="{% url 'edit_profile' %}">Edit Name</a></div>
 <a href="{% url 'edit_user' %}">Edit Username/Email</a>
 <br><br><br><br><br><br>
@@ -36,13 +33,15 @@
       <h3>{{ user.profile.first_name }}'s Favorite Trucks</h3>
       {% if user.profile.trucks.count %}
         {% for truck in user.profile.trucks.all %}
+        <a href="{% url 'index_detail' truck.id %}">
           <div class="card">
             <div class="card-content">
               <span class="card-title">
-                  {{ truck.name}}
+                {{ truck.name}}
               </span>
             </div>
           </div>
+        </a>
         {% endfor %}
       {% else %}
         <h5>No Trucks :(</h5>
@@ -60,7 +59,7 @@
             </span>
             </div>
             <div class="card-action">
-              <form method="post" action="{% url 'assoc_truck' profile.id truck.id %}">
+              <form method="post" action="{% url 'assoc_truck' user.id truck.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn">Add</button>
               </form>
