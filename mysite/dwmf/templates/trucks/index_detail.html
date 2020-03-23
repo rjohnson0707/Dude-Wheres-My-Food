@@ -6,7 +6,15 @@
 <div>{{truck.style}}</div>
 <div>{{truck.user}}</div>
 
-
-<h1>Insert comments, models needed</h1>
+<hr>
+{% for review in truck.reviews.all %}
+    <div class="comment">
+        <div class="date">{{ review.created_date }}</div>
+        <strong>{{ review.user }}</strong>
+        <p>{{ review.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
 <h1>Favorites, models needed</h1>
 {%endblock%}
