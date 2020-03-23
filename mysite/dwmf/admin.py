@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Truck, Profile, Menu, Calendar, Review
+from .models import Truck, Profile, Menu, Calendar, Review,ProfilePhoto
 
 # Register your models here.
 
@@ -8,3 +8,4 @@ admin.site.register(Profile)
 admin.site.register(Menu)
 admin.site.register(Calendar)
 admin.site.register(Review)
+admin.site.register(ProfilePhoto)

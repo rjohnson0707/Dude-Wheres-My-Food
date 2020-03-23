@@ -17,4 +17,55 @@
     <p>No comments here yet :(</p>
 {% endfor %}
 <h1>Favorites, models needed</h1>
+
+
+<ul class="collection">
+    <li class="collection-header">Calendar</li>
+    {%for calendar in truck.calendar_set.all%}
+    <li class="collection-item">{{calendar.date}}</li>
+    <li class="collection-item">{{calendar.time}}</li>
+    <li class="collection-item">{{calendar.location}}</li>
+    {%endfor%}
+</ul>
+<div>
+    <input id="address" type="textbox" value="Sydney, NSW">
+    <input type="button" value="Encode" onclick="codeAddress()">
+  </div>
+<div id="map" style="width: 320px; height: 480px;"></div>
+
+
+<!-- ######################### Google Maps!! -->
+<script>
+    var geocoder;
+    var map;
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+        var myLatLng = {lat: 39.733513, lng: -104.965172};
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 39.7392, lng: -104.9903},
+          zoom: 12
+        });
+
+    }
+
+    function codeAddress() {
+        var address = document.getElementById('address').value;
+        console.log(typeof(address))
+        // var address = `${truck.calendar.location}`
+        console.log(address)
+        geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+        });
+    }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkd4iwSaCRNF-mp1p9kuxtTlZzBBVBTsE&callback=initMap"
+    async defer></script>
 {%endblock%}
