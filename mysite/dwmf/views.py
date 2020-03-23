@@ -12,8 +12,10 @@ import uuid
 import boto3
 
 
-S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'dwmf'
+# S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+# BUCKET = 'dwmf'
+S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
+BUCKET = 'catcollector02'
 
 
 
@@ -75,9 +77,7 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            # if profile.truck_owner == 'Yes':
-            #     return redirect('truck_register')
-            # else:
+
             return redirect('index')
         else:
             error_message = 'Invalid Signup - Please try again'
