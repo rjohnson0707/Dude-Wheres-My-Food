@@ -109,9 +109,9 @@ def profile_photo(request, user_id):
     return redirect(reverse('profile'))
 
 
-# def assoc_truck(request, profile_id, truck_id):
-#     User.profile.objects.get(id=profile_id).trucks.add(truck_id)
-#     return redirect('profile', profile_id=profile_id)
+def assoc_truck(request, profile_id, truck_id):
+    User.profile.objects.get(id=profile_id).trucks.add(truck_id)
+    return redirect('profile', profile_id=profile_id)
 
 def trucks_index(request):
     trucks = Truck.objects.all()
