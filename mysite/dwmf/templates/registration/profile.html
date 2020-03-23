@@ -2,12 +2,28 @@
 {%block content%}
 
 <div class="container">
-  <h1>Profile Page</h1>
+  <div class="right-div">
+    {% if user.profilephoto_set.all|length > 1 %}
+    <div>Too Many Photos Uploaded</div>
+    {% endif %}
+    {% for photo in user.profilephoto_set.all %}
+    <img class="profile" src="{{photo.url}}">
+    {% empty %}
+    <div>No Photos Uploaded</div>
+    {% endfor %}
+    <form action="{% url 'profile_photo' user.id %}" enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      <input type="file" name="photo-file">
+      <br><br>
+      <input type="submit" class="btn" value="Upload Photo">
+    </form>
+  </div>
+  <h1>{{ user.first_name }} {{ user.last_name }}</h1>
   <p>Username: {{ user.username}}</p>
-  <p>First Name: {{ user.profile.first_name }}</p>
-  <p>Last Name: {{ user.profile.last_name }}</p>
   <p>Email: {{ user.email }}</p>
+  <p>Bio: {{ user.profile.bio }}</p>
 </div>
+<<<<<<< HEAD
 <a href="{% url 'edit_profile' %}">Edit Information?</a>
 <div id="profile">
   {% for photo in user.profilephoto_set.all %}
@@ -27,6 +43,11 @@
 <div class="row">
     <p>Bio: {{ user.profile.bio }}</p>
   </div>
+=======
+<div><a href="{% url 'edit_profile' %}">Edit Name</a></div>
+<a href="{% url 'edit_user' %}">Edit Username/Email</a>
+<br><br><br><br><br><br>
+>>>>>>> master
   <hr>
   <div class="row">
     <div class="col s6">

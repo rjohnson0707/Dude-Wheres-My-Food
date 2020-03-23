@@ -43,7 +43,7 @@ class Profile(models.Model):
     # choices=([('1', 'Yes'), ('2', 'No')])
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500)
-    # image = models.ImageField(upload_to='profile_image', blank=True)
+    
 
     trucks = models.ManyToManyField(Truck)
 
@@ -79,5 +79,5 @@ class Review(models.Model):
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='reviews')
 
     def __str__(self):
-        return self.text
+        return f"{self.user.username} at {self.created_date}: {self.text}"
 
