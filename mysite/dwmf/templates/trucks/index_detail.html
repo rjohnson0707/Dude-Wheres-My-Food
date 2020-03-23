@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<h1>Hello Truck</h1>
+<div>{{truck.name}}</div>
+<div>{{truck.style}}</div>
+<div>{{truck.user}}</div>
+
+<hr>
+{% for review in truck.reviews.all %}
+    <div class="comment">
+        <div class="date">{{ review.created_date }}</div>
+        <strong>{{ review.user }}</strong>
+        <p>{{ review.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+<h1>Favorites, models needed</h1>
+
+<div class="row">  
+    <div class="col s12 m3 left">
+        <h1>Menu</h1>
+    </div>
+    <div class="col s12 m3 right">
+        <div>
+            <input id="address" type="textbox" value="Type Location Here">
+            <input type="button" value="Search For Location" onclick="codeAddress()">
+        </div>
+        <div id="map" style="width: 100%; height: 480px;"></div>
+    </div>
+    <div class="col s12 m3 right">  
+        <ul class="collection ">
+            <li class="collection-header">Calendar</li>
+            {%for calendar in truck.calendar_set.all%}
+            <li class="collection-item">{{calendar.date}}</li>
+            <li class="collection-item">{{calendar.time}}</li>
+            <li class="collection-item">{{calendar.location}}</li>
+            {%endfor%}
+        </ul>
+    </div>
+   
+  
+</div>
+<!-- ######################### Google Maps!! -->
+<script>
+    var geocoder;
+    var map;
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+        var myLatLng = {lat: 39.733513, lng: -104.965172};
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 39.7392, lng: -104.9903},
+          zoom: 12
+        });
+
+    }
+
+    function codeAddress() {
+        var address = document.getElementById('address').value;
+        console.log(typeof(address))
+        // var address = `${truck.calendar.location}`
+        console.log(address)
+        geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+        });
+    }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkd4iwSaCRNF-mp1p9kuxtTlZzBBVBTsE&callback=initMap"
+    async defer></script>
+<div class="col s6">
+    <form method="post" action="{% url 'add_review' truck.id %}">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <input type="submit" class="btn" value="Add Review">
+    </form>   
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Review</th></tr>
+      </thead>
+      <tbody>
+          {% for review in truck.reviews.all %}
+          <tr>
+            <td>{{review.created_date}}</td>
+            <td>{{review.text}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{%endblock%}
