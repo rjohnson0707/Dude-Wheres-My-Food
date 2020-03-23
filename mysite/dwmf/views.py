@@ -69,7 +69,9 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-
+            # if profile.truck_owner == 'Yes':
+            #     return redirect('truck_register')
+            # else:
             return redirect('index')
         else:
             error_message = 'Invalid Signup - Please try again'
@@ -86,9 +88,7 @@ def profile(request, pk=None):
     trucks = Truck.objects.all()
     return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks})
 
-# def assoc_truck(request, user_id, truck_id):
-#     UserProfile.objects.get(id=user_id).trucks.add(truck_id)
-#     return redirect('profile', user_id=user_id)
+
 
 def trucks_index(request):
     trucks = Truck.objects.all()

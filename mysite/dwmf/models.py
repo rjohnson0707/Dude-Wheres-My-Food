@@ -39,6 +39,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     truck_owner = models.BooleanField(default=False)
+    # choices=([('1', 'Yes'), ('2', 'No')])
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500)
     image = models.ImageField(upload_to='profile_image', blank=True)
