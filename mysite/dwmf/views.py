@@ -92,8 +92,6 @@ def profile(request, pk=None):
     trucks = Truck.objects.all()
     return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks})
 
-<<<<<<< HEAD
-=======
 def profile_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -109,7 +107,6 @@ def profile_photo(request, user_id):
     return redirect(reverse('profile'))
 
 
->>>>>>> master
 # def assoc_truck(request, user_id, truck_id):
 #     UserProfile.objects.get(id=user_id).trucks.add(truck_id)
 #     return redirect('profile', user_id=user_id)
