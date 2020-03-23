@@ -18,11 +18,15 @@
       <input type="submit" class="btn" value="Upload Photo">
     </form>
   </div>
-  <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+  <h1>{{ user.profile.first_name }} {{ user.profile.last_name }}</h1>
   <p>Username: {{ user.username}}</p>
   <p>Email: {{ user.email }}</p>
   <p>Bio: {{ user.profile.bio }}</p>
 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 <div><a href="{% url 'edit_profile' %}">Edit Name</a></div>
 <a href="{% url 'edit_user' %}">Edit Username/Email</a>
 <br><br><br><br><br><br>
@@ -56,7 +60,7 @@
             </span>
             </div>
             <div class="card-action">
-              <form method="post">
+              <form method="post" action="{% url 'assoc_truck' profile.id truck.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn">Add</button>
               </form>

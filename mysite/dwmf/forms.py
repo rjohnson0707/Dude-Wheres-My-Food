@@ -55,13 +55,12 @@ class EditProfile(UserChangeForm):
             
     def save(self, commit=True):
         user = super(EditProfile, self).save(commit=False)
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        user.bio = self.cleaned_data['bio']
+        user.profile.first_name = self.cleaned_data['first_name']
+        user.profile.last_name = self.cleaned_data['last_name']
+        user.profile.bio = self.cleaned_data['bio']
 
         if commit:
             user.save()
-            user.profile.save()
         
         return user
 
