@@ -6,15 +6,25 @@
 <div>{{truck.style}}</div>
 <div>{{truck.user}}</div>
 
-<hr>
-{% for review in truck.reviews.all %}
-    <div class="comment">
-        <div class="date">{{ review.created_date }}</div>
-        <strong>{{ review.user }}</strong>
-        <p>{{ review.text|linebreaks }}</p>
-    </div>
-{% empty %}
-    <p>No comments here yet :(</p>
-{% endfor %}
-<h1>Favorites, models needed</h1>
+<div class="col s6">
+    <form method="post" action="{% url 'add_review' truck.id %}">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <input type="submit" class="btn" value="Add Review">
+    </form>   
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Review</th></tr>
+      </thead>
+      <tbody>
+          {% for review in truck.reviews.all %}
+          <tr>
+            <td>{{review.created_date}}</td>
+            <td>{{review.text}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 {%endblock%}

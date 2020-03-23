@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile, EditUser, ReviewForm
 import uuid
 import boto3
 
@@ -109,9 +109,9 @@ def profile_photo(request, user_id):
     return redirect(reverse('profile'))
 
 
-# def assoc_truck(request, user_id, truck_id):
-#     UserProfile.objects.get(id=user_id).trucks.add(truck_id)
-#     return redirect('profile', user_id=user_id)
+# def assoc_truck(request, profile_id, truck_id):
+#     User.profile.objects.get(id=profile_id).trucks.add(truck_id)
+#     return redirect('profile', profile_id=profile_id)
 
 def trucks_index(request):
     trucks = Truck.objects.all()
@@ -119,7 +119,17 @@ def trucks_index(request):
 
 def trucks_info(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
-    return render(request, 'trucks/index_detail.html', {'truck': truck})
+    review_form = ReviewForm()
+    return render(request, 'trucks/index_detail.html', {'truck': truck, 'review_form': review_form})
+
+def add_review(request, truck_id):
+    form = ReviewForm(request.POST)
+    if form.is_valid():
+        new_review = form.save(commit=False)
+        new_review.truck_id = truck_id
+        new_review.save()
+    return redirect('trucks_info', truck_id=truck_id)
+
 
 def add_calendar(request, truck_id):
    
@@ -135,6 +145,7 @@ def add_calendar(request, truck_id):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfile(request.POST, instance=request.user)
+        
 
         if form.is_valid():
             form.save()
@@ -142,3 +153,15 @@ def edit_profile(request):
     else:
         form = EditProfile(instance=request.user)
         return render(request, 'registration/edit_profile.html', {'form': form})
+
+def edit_user(request):
+    if request.method == 'POST':
+        form = EditUser(request.POST, instance=request.user)
+        
+
+        if form.is_valid():
+            form.save()
+            return redirect('/profile')
+    else:
+        form = EditUser(instance=request.user)
+        return render(request, 'registration/edit_user.html', {'form': form}) 
