@@ -109,8 +109,13 @@ def profile_photo(request, user_id):
     return redirect(reverse('profile'))
 
 
+<<<<<<< HEAD
 def assoc_truck(request, profile_id, truck_id):
     Profile.objects.get(id=profile_id).trucks.add(truck_id)
+=======
+def assoc_truck(request, user_id, truck_id):
+    Profile.objects.get(id=user_id).trucks.add(truck_id)
+>>>>>>> c3afb9154f9551b8477b9db0ff57c07554faaf0c
     return redirect(reverse('profile'))
 
 def trucks_index(request):
