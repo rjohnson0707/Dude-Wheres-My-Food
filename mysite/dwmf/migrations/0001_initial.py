@@ -24,14 +24,21 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='ProfilePhoto',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('url', models.CharField(max_length=200)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Profile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=50)),
                 ('last_name', models.CharField(max_length=50)),
-                ('truck_owner', models.BooleanField()),
+                ('truck_owner', models.BooleanField(default=False)),
                 ('bio', models.TextField(max_length=500)),
-                ('image', models.ImageField(blank=True, upload_to='profile_image')),
                 ('trucks', models.ManyToManyField(to='dwmf.Truck')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

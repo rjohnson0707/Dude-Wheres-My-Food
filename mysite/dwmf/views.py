@@ -6,8 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck, User, Profile, Menu, Calendar
+from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto
 from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile
+import uuid
+import boto3
+
+
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'dwmf'
 
 
 
@@ -86,6 +92,24 @@ def profile(request, pk=None):
     trucks = Truck.objects.all()
     return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks})
 
+<<<<<<< HEAD
+=======
+def profile_photo(request, user_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = ProfilePhoto(url=url, user_id=user_id)
+            photo.save()
+        except:
+            print('An error occurred uploading the file to the cloud')
+    return redirect(reverse('profile'))
+
+
+>>>>>>> master
 # def assoc_truck(request, user_id, truck_id):
 #     UserProfile.objects.get(id=user_id).trucks.add(truck_id)
 #     return redirect('profile', user_id=user_id)
