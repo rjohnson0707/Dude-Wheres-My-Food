@@ -124,11 +124,13 @@ def trucks_info(request, truck_id):
 
 def add_review(request, truck_id):
     form = ReviewForm(request.POST)
+    user = request.user
     if form.is_valid():
         new_review = form.save(commit=False)
         new_review.truck_id = truck_id
+        new_review.user_id = user.id
         new_review.save()
-    return redirect('trucks_info', truck_id=truck_id)
+    return redirect('index_detail', truck_id=truck_id)
 
 
 def add_calendar(request, truck_id):
