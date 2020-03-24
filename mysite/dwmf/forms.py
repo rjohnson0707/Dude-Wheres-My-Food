@@ -53,7 +53,7 @@ class EditUser(UserChangeForm):
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = ('text', 'created_date')
+        fields = ('text',)
 
 
 

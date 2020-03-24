@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto
 from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditUser, ReviewForm, MenuUpdate, TruckUpdate
+from datetime import date, time, timezone, datetime
 import uuid
 import boto3
 
@@ -174,6 +175,7 @@ def add_review(request, truck_id):
         new_review = form.save(commit=False)
         new_review.truck_id = truck_id
         new_review.user_id = user.id
+        new_review.created_date = datetime.now()
         new_review.save()
     return redirect('index_detail', truck_id=truck_id)
 
