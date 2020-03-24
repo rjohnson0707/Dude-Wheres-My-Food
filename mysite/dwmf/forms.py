@@ -86,3 +86,9 @@ class CalendarForm(ModelForm):
     class Meta:
         model = Calendar
         fields = ['date', 'start_time', 'end_time', 'location']
+
+class MenuUpdate(ModelForm):
+    class Meta:
+        model = Menu
+        fields = ['food_name', 'description', 'price']
+       

@@ -33,13 +33,20 @@
             <a href="{%url 'menu_create' truck.id%}">Create Menu Item</a>
             <div class="row">
             {%for item in truck.menu_set.all%}
-                <div class="col s12 m6">
+                <div class="col s12 m12 l6">
                     <div class="card small">
                         <div class="card-content">
                             <span class="card-title">{{item.food_name}}</span>
                             <div class="card-content">
                                 <p>{{item.description}}</p>
                                 <p>${{item.price}}</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{%url 'menu_update'  truck.id item.id%}">Update Item</a>
+                                <form action="{% url 'delete_item' truck.id item.id %}" method="post">
+                                    {% csrf_token %}
+                                  <button type="submit" class="btn right">Remove</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -51,21 +58,31 @@
     </div>
 
     <!-- Calendar container and informations -->
-    <div class="col s6 center">
+    <div class="col s6">
   
-        <div class="container row">
+        <div class="container row center">
             <h1>Your Calendar</h1>
+            {%if truck.calendar_set.count%}
             {%for calendar in truck.calendar_set.all%}
             <ul class="collection col s4">
                 <li class="collection-header center"><span>{{calendar.date}}</span></li>
                 <li class="collection-item center">Start Time: {{calendar.start_time}}  |  End Time: {{calendar.end_time}}</li>
                 <li class="collection-item center">{{calendar.location}}</li>
+                <form action="{% url 'delete_calendar' truck.id calendar.id %}" method="post">
+                    {% csrf_token %}
+                  <button type="submit" class="btn center">Remove</button>
+                </form>
             </ul>
             {%endfor%}
+            {%else%}
+                <h4>You have no upcoming dates</h4>
+            {%endif%}
+           
         </div>
         <br>
         <div class="container row">
-            <!-- <h1>New Calendar Date</h1> -->
+            <hr>
+            <h3 class="center">New Calendar Date</h3>
             <form action="{%url 'add_calendar' truck.id%}" method="post">
                 {%csrf_token%}
                 {{calendar_form.as_p}}

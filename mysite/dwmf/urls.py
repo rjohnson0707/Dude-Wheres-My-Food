@@ -11,16 +11,15 @@ urlpatterns = [
     path('edit_user/', views.edit_user, name='edit_user'),
     path('profile/<int:user_id>/profile_photo/', views.profile_photo, name='profile_photo'),
     path('trucks/<int:truck_id>/add_review/', views.add_review, name='add_review'),
-<<<<<<< HEAD
-    path('profile/<int:profile_id>/assoc_truck/<int:truck_id>/', views.assoc_truck, name='assoc_truck'),
-=======
     path('profile/<int:user_id>/assoc_truck/<int:truck_id>/', views.assoc_truck, name='assoc_truck'),
->>>>>>> c3afb9154f9551b8477b9db0ff57c07554faaf0c
     path('trucks/', views.trucks_index, name='index'),
     path('trucks/<int:truck_id>', views.trucks_info, name='index_detail'),
     path('truck/register/', views.TruckCreate.as_view(), name="truck_register"),
     path('truck/<int:truck_id>/', views.truck_detail, name='truck_detail'),
     path('truck/<int:truck_id>/create', views.menu_create, name='menu_create'),
     path('truck/<int:truck_id>/create/menu_new', views.menu_new, name='menu_new'),
-    path('truck/<int:truck_id>/add_calendar', views.add_calendar, name='add_calendar'),  
+    path('truck/<int:truck_id>/add_calendar', views.add_calendar, name='add_calendar'),
+    path('truck/<int:truck_id>/calendar/<int:calendar_id>/delete', views.delete_calendar, name='delete_calendar'), 
+    path('truck/<int:truck_id>/menu/<int:item_id>/menu_update', views.menu_update, name='menu_update'),
+    path('truck/<int:truck_id>/menu/<int:item_id>/delete', views.delete_item, name='delete_item')
 ]

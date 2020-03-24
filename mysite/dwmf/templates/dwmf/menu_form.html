@@ -1,6 +1,7 @@
 {%extends 'base.html'%}
 
 {%block content%}
+<div class="container">
 <h1>Create a Menu Item</h1>
 
 <form action="{% url 'menu_new' truck.id%}" method="post">
@@ -11,4 +12,5 @@
     </table>
     <input type="submit" value="Register" class="btn">
 </form>
+</div>
 {%endblock%}

@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile, EditUser, ReviewForm
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile, EditUser, ReviewForm, MenuUpdate
 import uuid
 import boto3
 
@@ -31,7 +31,6 @@ class TruckCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
 
 ##########################view definitions here
 
@@ -109,13 +108,8 @@ def profile_photo(request, user_id):
     return redirect(reverse('profile'))
 
 
-<<<<<<< HEAD
-def assoc_truck(request, profile_id, truck_id):
-    Profile.objects.get(id=profile_id).trucks.add(truck_id)
-=======
 def assoc_truck(request, user_id, truck_id):
     Profile.objects.get(id=user_id).trucks.add(truck_id)
->>>>>>> c3afb9154f9551b8477b9db0ff57c07554faaf0c
     return redirect(reverse('profile'))
 
 def trucks_index(request):
@@ -172,3 +166,37 @@ def edit_user(request):
     else:
         form = EditUser(instance=request.user)
         return render(request, 'registration/edit_user.html', {'form': form}) 
+
+def menu_update(request, item_id, truck_id):
+  
+    if request.method == 'POST':
+        form = MenuUpdate(request.POST)
+
+        if form.is_valid():
+            update_item = form.save(commit=False)
+            update_item.truck_id = truck_id
+            update_item.save()
+            return redirect('truck_detail', truck_id=truck_id)
+    else:
+        form = MenuUpdate()
+        return render(request, 'dwmf/menu_update.html',{'form': form})
+
+def delete_item(request, item_id, truck_id):
+    obj = Menu.objects.get(id=item_id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('truck_detail', truck_id=truck_id)
+    context ={
+        truck_id: truck_id,
+    }
+    return render(request, 'dwmf/truck_detail.html', {'truck_id': truck_id})
+
+def delete_calendar(request, calendar_id, truck_id):
+    obj = Calendar.objects.get(id=calendar_id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('truck_detail', truck_id=truck_id)
+    context ={
+        truck_id: truck_id,
+    }
+    return render(request, 'dwmf/truck_detail.html', {'truck_id': truck_id})
