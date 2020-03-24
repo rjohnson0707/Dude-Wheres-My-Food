@@ -190,6 +190,7 @@ def add_calendar(request, truck_id):
     return redirect('truck_detail', truck_id=truck_id)
 
 
+
 def edit_user(request):
     if request.method == 'POST':
         form = EditUser(request.POST, instance=request.user)
