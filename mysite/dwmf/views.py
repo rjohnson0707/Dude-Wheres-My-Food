@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditUser, ReviewForm
+from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile, EditUser, ReviewForm, MenuUpdate, TruckUpdate
 import uuid
 import boto3
 
@@ -33,7 +33,9 @@ class TruckCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-
+class TruckUpdate(LoginRequiredMixin, UpdateView):
+    model = Truck
+    fields = ['name', 'style']
 ##########################view definitions here
 
 def truck_detail(request, truck_id):
@@ -118,6 +120,35 @@ def delete_photo(request, user_id):
     return redirect(reverse('profile'))
         
 
+def truck_photo(request, truck_id):
+
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = TruckPhoto(url=url, truck_id=truck_id)
+            photo.save()
+        except:
+            print('An error occurred uploading the file to the cloud')
+    return redirect('truck_detail', truck_id=truck_id)
+
+def menu_photo(request, truck_id, item_id):
+
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = MenuPhoto(url=url, item_id=item_id)
+            photo.save()
+        except:
+            print('An error occurred uploading the file to the cloud')
+    return redirect('truck_detail', truck_id=truck_id)
 
 def assoc_truck(request, user_id, truck_id):
     Profile.objects.get(user_id=user_id).trucks.add(truck_id)
@@ -181,3 +212,37 @@ def edit_user(request):
     else:
         form = EditUser(instance=request.user)
         return render(request, 'registration/edit_user.html', {'form': form}) 
+
+def menu_update(request, item_id, truck_id):
+    item = Menu.objects.get(id=item_id)
+    if request.method == 'POST':
+        form = MenuUpdate(request.POST, instance=item)
+
+        if form.is_valid():
+            update_item = form.save(commit=False)
+            update_item.truck_id = truck_id
+            update_item.save()
+            return redirect('truck_detail', truck_id=truck_id)
+    else:
+        form = MenuUpdate(instance=item)
+        return render(request, 'dwmf/menu_update.html',{'form': form})
+
+def delete_item(request, item_id, truck_id):
+    obj = Menu.objects.get(id=item_id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('truck_detail', truck_id=truck_id)
+    context ={
+        truck_id: truck_id,
+    }
+    return render(request, 'dwmf/truck_detail.html', {'truck_id': truck_id})
+
+def delete_calendar(request, calendar_id, truck_id):
+    obj = Calendar.objects.get(id=calendar_id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('truck_detail', truck_id=truck_id)
+    context ={
+        truck_id: truck_id,
+    }
+    return render(request, 'dwmf/truck_detail.html', {'truck_id': truck_id})
