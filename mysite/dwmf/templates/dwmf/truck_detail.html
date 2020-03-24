@@ -43,11 +43,7 @@
                 <div class="col s12 m12 l6">
                     <div class="card horizontal">
                         <div class="card-image">
-                            {% for photo in item.menuphoto_set.all %}
-                            <img class="profile" src="{{photo.url}}">
-                            {% empty %}
-                            <div>No Photos Uploaded</div>
-                            {% endfor %}                            
+                                                     
                         </div>
                         <div class="card-stacked">
                             <div class="card-content">
@@ -57,15 +53,7 @@
                             </div>
                             <div class="card-action">
                                 <a href="{%url 'menu_update'  truck.id item.id%}">Update Item</a>
-
-                                {% if item.menuphoto_set.all|length > 0%}
-                                <form action="{% url 'menu_photo' truck.id item.id%}" enctype="multipart/form-data" method="POST">
-                                  {% csrf_token %}
-                                  <input type="file" name="photo-file">
-                                  <br><br>
-                                  <input type="submit" class="btn" value="Upload Photo">
-                                </form>
-                                {% endif %}                                
+                           
                                 <form action="{% url 'delete_item' truck.id item.id %}" method="post">
                                     {% csrf_token %}
                                   <button type="submit" class="btn right">Remove</button>
