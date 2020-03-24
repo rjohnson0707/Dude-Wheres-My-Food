@@ -44,13 +44,13 @@
   <div class="reviews">
     <table class="striped">
       <thead>
-        <tr><th>Date</th><th>User</th><th>Review</th></tr>
+        <tr><th>Date</th><th>Reviewer</th><th>Review</th></tr>
       </thead>
       <tbody>
           {% for review in truck.reviews.all %}
           <tr>
             <td>{{review.created_date}}</td>
-            <td>{{review.user.first_name}}</td>
+            <td>{{review.user.first_name}} {{review.user.last_name}}</td>
             <td>{{review.text}}</td>
           </tr>
         {% endfor %}

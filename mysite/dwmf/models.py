@@ -88,9 +88,7 @@ class Calendar(models.Model):
 
 class Review(models.Model):
     text = models.TextField(max_length=500)
-    now = timezone.now()
-    current_time = now.strftime("%H:%M:%S")
-    created_date = models.DateTimeField(default=datetime.datetime.now())
+    created_date = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='reviews')
 
