@@ -8,13 +8,17 @@
     {% empty %}
     <div>No Photos Uploaded</div>
     {% endfor %}
-    {% if user.profilephoto_set.all|length > 0%}
-    {% else%}
+    {% if user.profilephoto_set.all|length == 0%}
     <form action="{% url 'profile_photo' user.id %}" enctype="multipart/form-data" method="POST">
       {% csrf_token %}
       <input type="file" name="photo-file">
       <br><br>
       <input type="submit" class="btn" value="Upload Photo">
+    </form>
+    {% else%}
+    <form action="{% url 'delete_photo' user.id %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="Delete Photo">
     </form>
     {% endif %}
   </div>
@@ -37,9 +41,13 @@
           <div class="card">
             <div class="card-content">
               <span class="card-title">
-                {{ truck.name}}
+                {{ truck.name}}: {{truck.style}}
               </span>
             </div>
+            <form action="{% url 'unassoc_truck' user.id truck.id %}" method="post">
+              {% csrf_token %}
+            <button type="submit" class="btn">Remove</button>
+          </form>
           </div>
         </a>
         {% endfor %}
@@ -48,14 +56,14 @@
       {% endif %}
     </div>
 
-    <div class="col s6">
-      <h3>Available Trucks to Favorite</h3>
+    <!-- <div class="col s6">
+      <h3>Food Trucks</h3>
       {% if trucks.count %}
         {% for truck in trucks.all %}
           <div class="card">
             <div class="card-content">
               <span class="card-title">
-                {{ truck.name}}
+                {{ truck.name }}: {{truck.style }}
             </span>
             </div>
             <div class="card-action">
@@ -67,9 +75,28 @@
           </div>
         {% endfor %}
       {% endif %}
-    </div>
-  </div>
+    </div> -->
+    <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Food Trucks!</a>
 
+  <!-- Dropdown Structure -->
+  {% for truck in trucks.all %}
+  <ul id='dropdown1' class='dropdown-content'>
+    
+    <form method="post" action="{% url 'assoc_truck' user.id truck.id %}">
+      {% csrf_token %}
+      <li>{{truck.name}}: {{truck.style}} <button type="submit">Add</button></li>
+    </form>
+  </ul>
+  {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var options = 1
+    var instances = M.Dropdown.init(elems, options);
+  });
+</script>
 
 
 

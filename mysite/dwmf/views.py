@@ -12,10 +12,11 @@ import uuid
 import boto3
 
 
-# S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-# BUCKET = 'dwmf'
-S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
-BUCKET = 'catcollector02'
+
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'dwmf'
+# S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
+# BUCKET = 'catcollector02'
 
 
 
@@ -91,8 +92,10 @@ def profile(request, pk=None):
         user = User.objects.get(pk=pk)
     else:
         user = request.user
+        profile = request.user.profile
     trucks = Truck.objects.all()
-    return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks})
+    trucks_user_doesnt_favorite = Truck.objects.exclude(id__in = profile.trucks.all().values_list('id'))
+    return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks, 'trucks_user_doesnt_favorite': trucks_user_doesnt_favorite})
 
 def profile_photo(request, user_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -108,9 +111,20 @@ def profile_photo(request, user_id):
             print('An error occurred uploading the file to the cloud')
     return redirect(reverse('profile'))
 
+def delete_photo(request, user_id):
+    key = ProfilePhoto.objects.all()
+    key.delete()
+    
+    return redirect(reverse('profile'))
+        
+
 
 def assoc_truck(request, user_id, truck_id):
     Profile.objects.get(id=user_id).trucks.add(truck_id)
+    return redirect(reverse('profile'))
+
+def unassoc_truck(request, user_id, truck_id):
+    Profile.objects.get(id=user_id).trucks.remove(truck_id)
     return redirect(reverse('profile'))
 
 def trucks_index(request):
