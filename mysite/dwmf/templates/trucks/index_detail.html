@@ -34,20 +34,23 @@
 </div>
 
 
-<div class="col s6">
+<div class="review_form">
     <form method="post" action="{% url 'add_review' truck.id %}">
         {% csrf_token %}
-        {{ review_form.as_p }}
+        {{ review_form }}
         <input type="submit" class="btn" value="Add Review">
     </form>   
+</div>
+  <div class="reviews">
     <table class="striped">
       <thead>
-        <tr><th>Date</th><th>Review</th></tr>
+        <tr><th>Date</th><th>User</th><th>Review</th></tr>
       </thead>
       <tbody>
           {% for review in truck.reviews.all %}
           <tr>
             <td>{{review.created_date}}</td>
+            <td>{{review.user.first_name}}</td>
             <td>{{review.text}}</td>
           </tr>
         {% endfor %}
@@ -88,26 +91,6 @@
     }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkd4iwSaCRNF-mp1p9kuxtTlZzBBVBTsE&callback=initMap"
-    async defer></script>
+    async defer></script> 
 
-<div class="col s6">
-    <form method="post" action="{% url 'add_review' truck.id %}">
-        {% csrf_token %}
-        {{ review_form.as_p }}
-        <input type="submit" class="btn" value="Add Review">
-    </form>   
-    <table class="striped">
-      <thead>
-        <tr><th>Date</th><th>Review</th></tr>
-      </thead>
-      <tbody>
-          {% for review in truck.reviews.all %}
-          <tr>
-            <td>{{review.created_date}}</td>
-            <td>{{review.text}}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
 {%endblock%}

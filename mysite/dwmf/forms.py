@@ -29,6 +29,8 @@ class EditUser(UserChangeForm):
     class Meta:
         model = User
         fields = (
+            'first_name',
+            'last_name',
             'username',
             'email',
             'password',
@@ -37,27 +39,6 @@ class EditUser(UserChangeForm):
     def save(self, commit=True):
         user = super(EditUser, self).save(commit=False)
         user.email = self.cleaned_data['email']
-
-        if commit:
-            user.save()
-        
-        return user
-
-class EditProfile(UserChangeForm):
-
-    class Meta:
-        model = Profile
-        fields = (
-            'first_name',
-            'last_name',
-            'bio',
-            )
-            
-    def save(self, commit=True):
-        user = super(EditProfile, self).save(commit=False)
-        user.profile.first_name = self.cleaned_data['first_name']
-        user.profile.last_name = self.cleaned_data['last_name']
-        user.profile.bio = self.cleaned_data['bio']
 
         if commit:
             user.save()
@@ -75,7 +56,7 @@ class ReviewForm(ModelForm):
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields= ('first_name', 'last_name', 'bio') 
+        fields= ('first_name', 'last_name') 
 
 class MenuForm(ModelForm):
     class Meta:

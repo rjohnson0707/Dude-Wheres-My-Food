@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile, EditUser, ReviewForm
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditUser, ReviewForm
 import uuid
 import boto3
 
@@ -112,7 +112,7 @@ def profile_photo(request, user_id):
     return redirect(reverse('profile'))
 
 def delete_photo(request, user_id):
-    key = ProfilePhoto.objects.all()
+    key = ProfilePhoto.objects.get(user_id=user_id)
     key.delete()
     
     return redirect(reverse('profile'))
@@ -120,11 +120,11 @@ def delete_photo(request, user_id):
 
 
 def assoc_truck(request, user_id, truck_id):
-    Profile.objects.get(id=user_id).trucks.add(truck_id)
+    Profile.objects.get(user_id=user_id).trucks.add(truck_id)
     return redirect(reverse('profile'))
 
 def unassoc_truck(request, user_id, truck_id):
-    Profile.objects.get(id=user_id).trucks.remove(truck_id)
+    Profile.objects.get(user_id=user_id).trucks.remove(truck_id)
     return redirect(reverse('profile'))
 
 def trucks_index(request):

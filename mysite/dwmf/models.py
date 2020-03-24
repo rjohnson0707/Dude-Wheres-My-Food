@@ -7,6 +7,7 @@ from django.utils import timezone
 import datetime
 
 
+
 class Truck(models.Model):
     name = models.CharField(max_length=50)
     style = models.CharField(max_length=50)
@@ -80,4 +81,7 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.username} at {self.created_date}: {self.text}"
+
+    class Meta:
+        ordering = ['-created_date']
 

@@ -16,3 +16,13 @@
 .review {
     margin: 20px 0px 20px 20px;
 }
+
+.reviews {
+    border: 2px solid black;
+    padding-bottom: 10px;
+}
+
+.review_form {
+    width: 50vw;
+    height: 200px;
+}
