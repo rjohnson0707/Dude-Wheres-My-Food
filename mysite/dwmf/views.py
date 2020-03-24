@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto
-from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditProfile, EditUser, ReviewForm, MenuUpdate, TruckUpdate
+from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditUser, ReviewForm, MenuUpdate, TruckUpdate
 import uuid
 import boto3
 
@@ -189,17 +189,6 @@ def add_calendar(request, truck_id):
         new_calendar.save()
     return redirect('truck_detail', truck_id=truck_id)
 
-def edit_profile(request):
-    if request.method == 'POST':
-        form = EditProfile(request.POST, instance=request.user)
-        
-
-        if form.is_valid():
-            form.save()
-            return redirect('/profile')
-    else:
-        form = EditProfile(instance=request.user)
-        return render(request, 'registration/edit_profile.html', {'form': form})
 
 def edit_user(request):
     if request.method == 'POST':
