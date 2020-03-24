@@ -18,6 +18,12 @@ urlpatterns = [
     path('truck/register/', views.TruckCreate.as_view(), name="truck_register"),
     path('truck/<int:truck_id>/', views.truck_detail, name='truck_detail'),
     path('truck/<int:truck_id>/create', views.menu_create, name='menu_create'),
+    path('truck/<int:pk>/update', views.TruckUpdate.as_view(), name='truck_update'),
+    path('truck/<int:truck_id>/truck_photo/', views.truck_photo, name='truck_photo'),
     path('truck/<int:truck_id>/create/menu_new', views.menu_new, name='menu_new'),
-    path('truck/<int:truck_id>/add_calendar', views.add_calendar, name='add_calendar'),  
+    path('truck/<int:truck_id>/menu/<int:item_id>/menu_photo/', views.menu_photo, name='menu_photo'),
+    path('truck/<int:truck_id>/add_calendar', views.add_calendar, name='add_calendar'),
+    path('truck/<int:truck_id>/calendar/<int:calendar_id>/delete', views.delete_calendar, name='delete_calendar'), 
+    path('truck/<int:truck_id>/menu/<int:item_id>/menu_update', views.menu_update, name='menu_update'),
+    path('truck/<int:truck_id>/menu/<int:item_id>/delete', views.delete_item, name='delete_item')
 ]

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.db import models
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Profile, Menu, Calendar, Review
+from .models import Profile, Menu, Calendar, Review, Truck
 
 
 
@@ -67,3 +67,25 @@ class CalendarForm(ModelForm):
     class Meta:
         model = Calendar
         fields = ['date', 'start_time', 'end_time', 'location']
+
+class MenuUpdate(ModelForm):
+    class Meta:
+        model = Menu
+        fields = ['food_name', 'description', 'price']
+
+class TruckUpdate(ModelForm):
+    class Meta:
+        model = Truck
+        fields = ['name', 'style']
+
+    def save(self, commit=True):
+        truck = super(TruckUpdate, self).save(commit=False)
+        truck.name = self.cleaned_data['name']
+        truck.style = self.cleaned_data['style']
+        
+
+        if commit:
+            truck.save()
+    
+        return truck
+       

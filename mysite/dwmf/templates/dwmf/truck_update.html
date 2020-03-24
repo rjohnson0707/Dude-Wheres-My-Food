@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div class="container">
+    <h1>Update Truck</h1>
+    <form action="" method="put">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" class="btn" value="Edit">
+    </form>
+</div>
+{%endblock%}
