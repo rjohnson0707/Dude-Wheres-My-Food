@@ -57,6 +57,19 @@ class ProfilePhoto(models.Model):
     def __str__(self):
         return f"Photo for profile picture: {self.user_id} @ {self.url}"
 
+class TruckPhoto(models.Model):
+    url = models.CharField(max_length=200)
+    truck = models.ForeignKey(Truck, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for truck picture: {self.truck_id} @ {self.url}"
+
+class MenuPhoto(models.Model):
+    url = models.CharField(max_length=200)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for menu picture: {self.menu_id} @ {self.url}"
 
 class Calendar(models.Model):
     date = models.DateField()
@@ -69,6 +82,8 @@ class Calendar(models.Model):
     def __str__(self):
         return f'{self.date}, {self.time}, {self.location}'
 
+    class Meta:
+        ordering = ['-date']
 
 class Review(models.Model):
     text = models.TextField(max_length=500)
