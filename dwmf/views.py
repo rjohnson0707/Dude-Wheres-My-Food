@@ -6,9 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto
+from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto, Review
 from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditUser, ReviewForm, MenuUpdate, TruckUpdate
 from datetime import date, time, timezone, datetime
+from django.db.models import Avg
 import uuid
 import boto3
 
@@ -166,7 +167,13 @@ def trucks_index(request):
 def trucks_info(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
     review_form = ReviewForm()
-    return render(request, 'trucks/index_detail.html', {'truck': truck, 'review_form': review_form})
+    a = Review.objects.filter(truck_id=truck_id)
+    sum = 0
+    for rating in a:
+        sum += rating.rating
+    avg = sum / len(a)    
+
+    return render(request, 'trucks/index_detail.html', {'truck': truck, 'review_form': review_form, 'avg': avg})
 
 def add_review(request, truck_id):
     form = ReviewForm(request.POST)
@@ -179,6 +186,13 @@ def add_review(request, truck_id):
         new_review.save()
     return redirect('index_detail', truck_id=truck_id)
 
+def delete_review(request, truck_id, review_id):
+    review = Review.objects.get(id=review_id)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('index_detail', truck_id=truck_id)
+    else:
+        return render(request, 'trucks/index_detail.html', truck_id=truck_id)
 
 def add_calendar(request, truck_id):
    
