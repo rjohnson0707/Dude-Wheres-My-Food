@@ -52,6 +52,7 @@
             <td>{{review.created_date}}</td>
             <td>{{review.user.first_name}} {{review.user.last_name}}</td>
             <td>{{review.text}}</td>
+            <td>{%review.average%}</td>
           </tr>
         {% endfor %}
       </tbody>

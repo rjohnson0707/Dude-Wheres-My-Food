@@ -88,9 +88,15 @@ class Review(models.Model):
     created_date = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='reviews')
-
+    rating = 5
+    
     def __str__(self):
         return f"{self.user.username} at {self.created_date}: {self.text}"
+
+    def average(self):
+        avg += self.rating
+        print (avg)
+        return avg
 
     class Meta:
         ordering = ['-created_date']
