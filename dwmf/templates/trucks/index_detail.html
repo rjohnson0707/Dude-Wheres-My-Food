@@ -34,14 +34,14 @@
 </div>
 
 
-<div class="review_form">
+<div class="review_form left-align">
     <form method="post" action="{% url 'add_review' truck.id %}">
         {% csrf_token %}
         {{ review_form }}
         <input type="submit" class="btn" value="Add Review">
     </form>   
 </div>
-  <div class="reviews">
+  <div class="reviews right-align">
     <table class="striped">
       <thead>
         <tr><th>Date</th><th>Reviewer</th><th>Review</th><th>Rating</th><th>Average = {{avg}}</th></tr>
