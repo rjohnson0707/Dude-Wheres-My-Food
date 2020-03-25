@@ -52,16 +52,12 @@
             <td>{{review.created_date}}</td>
             <td>{{review.user.first_name}} {{review.user.last_name}}</td>
             <td>{{review.text}}</td>
-<<<<<<< HEAD
-            <td>{%review.average%}</td>
-=======
             <td>{{review.rating}}</td>
             {% if review.user == request.user %}
             <td><form method="POST" action="{% url 'delete_review' truck.id review.id %}">{%csrf_token%} <button type="submit" class="btn">Delete?</button></form></td>
             {% else %}
             <td></td>
             {%endif%}
->>>>>>> master
           </tr>
         {% endfor %}
       </tbody>
