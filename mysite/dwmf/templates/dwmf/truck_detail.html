@@ -9,26 +9,33 @@
                 <div>{{truck.style}}</div>
                 <div>{{truck.user}}</div>
                 <a href="{%url 'truck_update' truck.pk%}">Edit Truck Profile</a>
+                <br>
+                <a href="{% url 'truck_delete' truck.pk %}">Delete Truck</a>
         </div>
     </div>
 
     <!-- Photo container and info -->
-    <div class="container col s6">
-        <div class="">
-          {% for photo in truck.truckphoto_set.all %}
-          <img class="profile" src="{{photo.url}}">
-          {% empty %}
-          <div>No Photos Uploaded</div>
-          {% endfor %}
-          {% if truck.truckphoto_set.all|length > 0%}
-          {% else%}
-          <form action="{% url 'truck_photo' truck.id %}" enctype="multipart/form-data" method="POST">
-            {% csrf_token %}
-            <input type="file" name="photo-file">
-            <br><br>
-            <input type="submit" class="btn" value="Upload Photo">
-          </form>
-          {% endif %}
+    <div class="container">
+        <div class="col s6">
+            <div class="">
+            {% for photo in truck.truckphoto_set.all %}
+            <img class="profile" src="{{photo.url}}">
+            {% empty %}
+            <div>No Photos Uploaded</div>
+            {% endfor %}
+            {% if truck.truckphoto_set.all|length == 0%}
+            <form action="{% url 'truck_photo' truck.id %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="file" name="photo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Photo">
+            </form>
+            {% else%}
+            <form action="{% url 'delete_truck_photo' truck.id %}" method="POST">
+                {% csrf_token %}
+            <input type="submit" value="Delete Photo">
+            {% endif %}
+            </div>
         </div>
     </div>
 </div>
@@ -41,24 +48,18 @@
             <div class="row">
             {%for item in truck.menu_set.all%}
                 <div class="col s12 m12 l6">
-                    <div class="card horizontal">
-                        <div class="card-image">
-                                                     
+                    <div class="card small">
+                        <div class="card-content">
+                            <span class="card-title">{{item.food_name}}</span>
+                            <p>{{item.description}}</p>
+                            <p>${{item.price}}</p>
                         </div>
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <p>{{item.food_name}}</p>
-                                <p>{{item.description}}</p>
-                                <p>${{item.price}}</p>
-                            </div>
-                            <div class="card-action">
-                                <a href="{%url 'menu_update'  truck.id item.id%}">Update Item</a>
-                           
-                                <form action="{% url 'delete_item' truck.id item.id %}" method="post">
-                                    {% csrf_token %}
-                                  <button type="submit" class="btn right">Remove</button>
-                                </form>
-                            </div>
+                        <div class="card-action">
+                            <a href="{%url 'menu_update'  truck.id item.id%}">Update Item</a>
+                            <form action="{% url 'delete_item' truck.id item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn right">Remove</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -74,6 +75,9 @@
             <h1>Your Calendar</h1>
             {%if truck.calendar_set.count%}
             {%for calendar in truck.calendar_set.all%}
+            {%if calendar.date_checker%}
+           
+            {%else%}
             <ul class="collection col s4">
                 <li class="collection-header center"><span>{{calendar.date}}</span></li>
                 <li class="collection-item center">Start Time: {{calendar.start_time}}  |  End Time: {{calendar.end_time}}</li>
@@ -83,6 +87,7 @@
                   <button type="submit" class="btn center">Remove</button>
                 </form>
             </ul>
+            {%endif%}
             {%endfor%}
             {%else%}
                 <h4>You have no upcoming dates</h4>
