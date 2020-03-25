@@ -1,1 +1,1 @@
-web: gunicorn Dude-Wheres-My-Food.wsgi
+web: gunicorn mysite.wsgi
