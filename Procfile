@@ -1,1 +1,1 @@
-web: gunicorn dwmf.wsgi
+web: gunicorn mysite.wsgi
