@@ -15,10 +15,10 @@ import boto3
 
 
 
-S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'dwmf'
-# S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
-# BUCKET = 'catcollector02'
+# S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+# BUCKET = 'dwmf'
+S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
+BUCKET = 'catcollector02'
 
 
 
@@ -30,7 +30,6 @@ def home(request):
 class TruckCreate(LoginRequiredMixin, CreateView):
     model = Truck
     fields= ['name', 'style', ]
-
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -38,6 +37,10 @@ class TruckCreate(LoginRequiredMixin, CreateView):
 class TruckUpdate(LoginRequiredMixin, UpdateView):
     model = Truck
     fields = ['name', 'style']
+
+class TruckDelete(LoginRequiredMixin, DeleteView):
+    model = Truck
+    success_url = '/trucks/'
 ##########################view definitions here
 
 def truck_detail(request, truck_id):
@@ -120,7 +123,12 @@ def delete_photo(request, user_id):
     key.delete()
     
     return redirect(reverse('profile'))
-        
+
+def delete_truck_photo(request, truck_id):
+    key = TruckPhoto.objects.get(truck_id=truck_id)
+    key.delete()
+    
+    return redirect('truck_detail', truck_id=truck_id)        
 
 def truck_photo(request, truck_id):
 
@@ -132,21 +140,6 @@ def truck_photo(request, truck_id):
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             photo = TruckPhoto(url=url, truck_id=truck_id)
-            photo.save()
-        except:
-            print('An error occurred uploading the file to the cloud')
-    return redirect('truck_detail', truck_id=truck_id)
-
-def menu_photo(request, truck_id, item_id):
-
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
-        s3 = boto3.client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try:
-            s3.upload_fileobj(photo_file, BUCKET, key)
-            url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            photo = MenuPhoto(url=url, item_id=item_id)
             photo.save()
         except:
             print('An error occurred uploading the file to the cloud')
@@ -185,6 +178,10 @@ def add_review(request, truck_id):
         new_review.created_date = datetime.now()
         new_review.save()
     return redirect('index_detail', truck_id=truck_id)
+
+def truck_reviews(request, truck_id):
+    reviews = Review.objects.filter(truck=truck_id)
+    return render(request, 'dwmf/truck_reviews.html', {'reviews':reviews, 'truck_id':truck_id})
 
 def delete_review(request, truck_id, review_id):
     review = Review.objects.get(id=review_id)

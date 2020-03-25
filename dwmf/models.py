@@ -67,13 +67,6 @@ class TruckPhoto(models.Model):
     def __str__(self):
         return f"Photo for truck picture: {self.truck_id} @ {self.url}"
 
-class MenuPhoto(models.Model):
-    url = models.CharField(max_length=200)
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Photo for menu picture: {self.menu_id} @ {self.url}"
-
 class Calendar(models.Model):
     date = models.DateField()
     start_time = models.CharField(max_length=50)
@@ -84,6 +77,10 @@ class Calendar(models.Model):
 
     def __str__(self):
         return f'{self.date}, {self.time}, {self.location}'
+    
+    def date_checker(self):
+        date_check = date.today()
+        return self.date < date_check
 
     class Meta:
         ordering = ['-date']
