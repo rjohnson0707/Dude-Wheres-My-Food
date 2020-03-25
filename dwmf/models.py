@@ -4,6 +4,8 @@ from datetime import date, time, timezone, datetime
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 import datetime
 
 
@@ -86,11 +88,14 @@ class Calendar(models.Model):
 class Review(models.Model):
     text = models.TextField(max_length=500)
     created_date = models.DateTimeField()
+    rating = models.IntegerField('Rating (1-5 allowed)', validators=[MinValueValidator(1), MaxValueValidator(5)], default=5)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='reviews')
+    avg = 0
 
     def __str__(self):
-        return f"{self.user.username} at {self.created_date}: {self.text}"
+        return f"{self.user.username} at {self.created_date}: {self.text} {self.rating}"
+
 
     class Meta:
         ordering = ['-created_date']
