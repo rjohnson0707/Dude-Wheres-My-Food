@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto
+from .models import Truck, User, Profile, Menu, Calendar, ProfilePhoto, TruckPhoto, Review
 from .forms import ExtendedUserCreationForm, ProfileForm, MenuForm, CalendarForm, EditUser, ReviewForm, MenuUpdate, TruckUpdate
 from datetime import date, time, timezone, datetime
 import uuid
@@ -171,6 +171,10 @@ def add_review(request, truck_id):
         new_review.created_date = datetime.now()
         new_review.save()
     return redirect('index_detail', truck_id=truck_id)
+
+def truck_reviews(request, truck_id):
+    reviews = Review.objects.filter(truck=truck_id)
+    return render(request, 'dwmf/truck_reviews.html', {'reviews':reviews, 'truck_id':truck_id})
 
 
 def add_calendar(request, truck_id):

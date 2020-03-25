@@ -19,6 +19,7 @@ urlpatterns = [
     path('truck/<int:truck_id>/', views.truck_detail, name='truck_detail'),
     path('truck/<int:truck_id>/create', views.menu_create, name='menu_create'),
     path('truck/<int:pk>/update', views.TruckUpdate.as_view(), name='truck_update'),
+    path('truck/<int:truck_id>/reviews', views.truck_reviews, name='truck_reviews'),
     path('truck/<int:pk>/delete/', views.TruckDelete.as_view(), name='truck_delete'),
     path('truck/<int:truck_id>/truck_photo/', views.truck_photo, name='truck_photo'),
     path('truck/<int:truck_id>/delete/', views.delete_truck_photo, name='delete_truck_photo'),
