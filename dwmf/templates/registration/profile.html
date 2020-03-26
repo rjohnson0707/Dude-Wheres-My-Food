@@ -30,29 +30,31 @@
 
 <a href="{% url 'edit_user' %}">Edit {{user.first_name}}'s Information</a>
 <br><br><br><br><br><br>
-  <hr>
-  <div class="row">
-    <div class="col s6">
+ 
+    <div class="row">
       <h3>{{ user.first_name }}'s Favorite Trucks</h3>
-      {% if user.profile.trucks.count %}
-        {% for truck in user.profile.trucks.all %}
-        <a href="{% url 'index_detail' truck.id %}">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">
-                {{ truck.name}}: {{truck.style}}
-              </span>
-            </div>
-            <form action="{% url 'unassoc_truck' user.id truck.id %}" method="post">
-              {% csrf_token %}
-            <button type="submit" class="btn">Remove</button>
-          </form>
+      <div class="col s12 m6">
+        {% if user.profile.trucks.count %}
+        {% for tk in user.profile.trucks.all %}
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">{{tk.name}}</span>
+            <p>{{tk.style}}</p>
           </div>
-        </a>
+          <div class="card-action">
+            <a href="{% url 'index_detail' tk.id %}">Visit {{tk.name}}'s Page</a>
+          </div>
+            <form action="{% url 'unassoc_truck' user.id tk.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
         {% endfor %}
-      {% else %}
+        {% else %}
         <h5>No Trucks :(</h5>
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
 
   

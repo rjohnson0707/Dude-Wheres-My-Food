@@ -15,10 +15,10 @@ import boto3
 
 
 
-# S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-# BUCKET = 'dwmf'
-S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
-BUCKET = 'catcollector02'
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'dwmf'
+# S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
+# BUCKET = 'catcollector02'
 
 
 
@@ -149,8 +149,8 @@ def assoc_truck(request, user_id, truck_id):
     Profile.objects.get(user_id=user_id).trucks.add(truck_id)
     return redirect(reverse('profile'))
 
-def unassoc_truck(request, user_id, truck_id):
-    Profile.objects.get(user_id=user_id).trucks.remove(truck_id)
+def unassoc_truck(request, user_id, tk_id):
+    Profile.objects.get(user_id=user_id).trucks.remove(tk_id)
     return redirect(reverse('profile'))
 
 def trucks_index(request):
@@ -162,10 +162,12 @@ def trucks_info(request, truck_id):
     review_form = ReviewForm()
     a = Review.objects.filter(truck_id=truck_id)
     sum = 0
-    for rating in a:
-        sum += rating.rating
-    avg = sum / len(a)    
-
+    if len(a) > 0:
+        for rating in a:
+            sum += rating.rating
+        avg = sum / len(a)   
+    else: 
+        avg = 'None: Be the first to review!'
     return render(request, 'trucks/index_detail.html', {'truck': truck, 'review_form': review_form, 'avg': avg})
 
 def add_review(request, truck_id):
