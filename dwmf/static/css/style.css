@@ -45,10 +45,6 @@ label{
     width: 300px;
     border: 2px solid black;
 }
-<<<<<<< HEAD
-
-.right-div {
-=======
 .truck-profile {
     border-radius: 20%;
     height: 250px;
@@ -57,7 +53,6 @@ label{
 
 /* Profile page */
 #right-div {
->>>>>>> master
     float: right;
     padding-left: 40px;
     margin-right: 10px;
