@@ -41,8 +41,8 @@ label{
 }
 .profile {
     border-radius: 50%;
-    height: 250px;
-    width: 250px;
+    height: 300px;
+    width: 300px;
     border: 2px solid black;
 }
 .truck-profile {
@@ -50,9 +50,75 @@ label{
     height: 250px;
     width: 30vw;
 }
-.right-div {
+
+/* Profile page */
+#right-div {
     float: right;
+    padding-left: 40px;
+    margin-right: 10px;
 }
+
+#profile-info {
+    text-align: left;
+    width: fit-content;
+    padding: 5px;
+}
+
+#profile-container {
+    margin-left: 10px;
+    width: 100vw;
+}
+
+#profile-container h1 {
+    text-shadow: 3px 3px black;
+    text-decoration: underline;
+}
+
+#profile-container a {
+    color: white;
+    text-decoration: underline;
+    font-size: medium;
+}
+
+#edit-info:hover {
+    color:yellow;
+}
+
+#profile-form {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#assoc-button {
+    font-family: Arial, Helvetica, sans-serif;
+    float: right;
+    margin-right: 15px;
+}
+
+#fav-h3 {
+    text-align: center;
+    text-shadow: 3px 3px black;
+    text-decoration: underline;
+    font-size: 50px;
+}
+
+#sub-btn {
+    width: -webkit-fill-available;
+}
+
+/* Edit page */
+#edit-page{
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+    outline-style: ridge;
+    outline-color: white;
+}
+
+#edit-btn{
+    margin-bottom: 5px;
+}
+
+
 
 .review {
     margin: 20px 0px 20px 20px;

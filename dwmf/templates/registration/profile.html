@@ -1,8 +1,8 @@
 {%extends 'base.html'%}
 {%block content%}
 
-<div class="container">
-  <div class="right-div">
+<div class="container" id="profile-container">
+  <div id="right-div">
     {% for photo in user.profilephoto_set.all %}
     <img class="profile" src="{{photo.url}}">
     {% empty %}
@@ -16,39 +16,46 @@
       <input type="submit" class="btn" value="Upload Photo">
     </form>
     {% else%}
-    <form action="{% url 'delete_photo' user.id %}" method="POST">
+    <form action="{% url 'delete_photo' user.id %}" method="POST" style="text-align: center;">
       {% csrf_token %}
-      <input type="submit" value="Delete Photo">
+      <input type="submit" value="Delete Photo" class="btn">
     </form>
     {% endif %}
   </div>
-  <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-  <p>Username: {{ user.username}}</p>
-  <p>Email: {{ user.email }}</p>
+  <div id="profile-info">
+    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+    <p>Username: {{ user.username}}</p>
+    <p>Email: {{ user.email }}</p>
+    <p><a href="{% url 'edit_user' %}" id="edit-info">Edit {{user.first_name}}'s Information</a></p>
+  </div>
   <!-- <p>Bio: {{ user.bio }}</p> -->
 </div>
 
-<a href="{% url 'edit_user' %}">Edit {{user.first_name}}'s Information</a>
 <br><br><br><br><br><br>
  
     <div class="row">
-      <h3>{{ user.first_name }}'s Favorite Trucks</h3>
+      <h3 id="fav-h3">{{ user.first_name }}'s Favorite Trucks</h3>
+      <a class='dropdown-trigger btn' href='#' data-target='dropdown1' id="assoc-button">Available Food Trucks</a>
       <div class="col s12 m6">
         {% if user.profile.trucks.count %}
         {% for tk in user.profile.trucks.all %}
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-            <span class="card-title">{{tk.name}}</span>
-            <p>{{tk.style}}</p>
-          </div>
-          <div class="card-action">
-            <a href="{% url 'index_detail' tk.id %}">Visit {{tk.name}}'s Page</a>
-          </div>
-            <form action="{% url 'unassoc_truck' user.id tk.id %}" method="post">
-              {% csrf_token %}
-              <button type="submit" class="btn">Remove</button>
-            </form>
-          </div>
+        <div class="card index-card">
+          <a href="{%url 'index_detail' tk.id%}">
+            <div class="card-content row">
+              <div class="col s6">
+              <span class="card-title">{{ tk.name }}</span>
+              <p>Style: {{ tk.style }}</p>
+              <p>Comments: {{ tk.review.avg}}<p>
+              </div>
+                {%for photo in tk.truckphoto_set.all%}
+                  <img src="{{photo.url}}" alt="" class="col s6" id="index-image">
+                {%endfor%}
+            </div>
+          </a> 
+          <form action="{% url 'unassoc_truck' user.id tk.id %}" method="post" id="profile-form">
+            {% csrf_token %}
+            <button type="submit" class="btn">Remove</button>
+          </form>
         </div>
         {% endfor %}
         {% else %}
@@ -58,13 +65,12 @@
     </div>
 
   
-  <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Food Trucks!</a>
   <!-- Dropdown Structure -->
   <ul id='dropdown1' class='dropdown-content'>
     {% for truck in trucks_user_doesnt_favorite %}
     <form method="post" action="{% url 'assoc_truck' user.id truck.id %}">
       {% csrf_token %}
-    <button type="submit"><li>{{truck.name}}: {{truck.style}}</li></button>
+    <button type="submit" id="sub-btn"><li>{{truck.name}}: {{truck.style}}</li></button>
     </form>
     {% endfor %}
   </ul>

@@ -4,7 +4,6 @@
 <div class="container">
   <h1 class="center index-h1">Find Your Food!</h1>
   {%for ft in trucks%}
-
     <div class="card index-card">
       <a href="{%url 'index_detail' ft.id%}">
         <div class="card-content row">
@@ -17,11 +16,10 @@
               <img src="{{photo.url}}" alt="" class="col s6" id="index-image">
             {%endfor%}
         </div>
-      </a>
-      
+      </a> 
     </div>
-    {%endfor%}
-  </div>
+  {%endfor%}
+</div>
 
 
 
