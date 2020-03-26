@@ -8,16 +8,17 @@
     <title>Dude Where's My Food?</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <nav>
-        <div class="nav-wrapper logo">
-            <a href="#!" class="brand-logo">Dude! Where's My Food?</a>
-        </div>
-      </nav>
-    <nav>
+    <nav class="head-nav">
         <div class="nav-wrapper">
+            <img class='logo' src="../static/images/foodtruck.jpg" alt=""> 
+            <!-- <i class="large material-icons">local_shipping</i> -->
+            <a href="/" class="banner">Dude! Where's My Food?</a>
+
                 {% if user.is_authenticated %}
             <ul class="left">
                 {%if user.truck_set.count%}

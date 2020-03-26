@@ -1,7 +1,44 @@
+*{
+    font-family: 'Lobster',cursive, Arial, Helvetica,sans-serif;
+}
 .logo {
     background-color: maroon;
+    height: 5vh;
 }
 
+body{
+    background-image: url('../images/main_food_truck.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-attachment: fixed;
+    color: white;
+}
+.head-nav{
+    background-color: rgb(224, 224, 137);
+    border-bottom: 5px solid black;
+   
+}
+nav a{
+
+    color:black;
+}
+nav ul a{
+
+    color:black;
+}
+.nav-wrapper a:hover{
+    background-color:rbga(255,255,255,0.2);
+    color:white;
+}
+.banner{
+    font-size: 2rem;
+
+}
+label{
+    color: white;
+}
 .profile {
     border-radius: 50%;
     height: 250px;
@@ -32,4 +69,82 @@
     border: 2px solid black;
     width: 49vw;
     height: 200px;
+}
+/* Home page */
+.intro{
+    border: 2px black solid;
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+    outline-style: ridge;
+    padding: 0 2px;
+    font-size: larger;
+}
+.home-h1{
+    text-shadow: 3px 3px black;
+}
+/* Signup page */
+#signup{
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+    outline-style: ridge;
+    outline-color: white;
+}
+.signup-h1{
+    text-shadow: 3px 3px black;
+}
+.signup-btn{
+    margin-bottom: 5px;
+}
+
+/* Login page */
+#login{
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+    outline-style: ridge;
+    outline-color: white;
+    padding: 0 8px;
+}
+#login form p input{
+    border: inset;
+
+}
+.login-btn{
+    margin-bottom: 5px;
+}
+.login-h1{
+    text-shadow: 3px 3px black;
+}
+
+/* Index Page */
+.index-h1{
+    text-shadow: 3px 3px black;
+}
+#index-image{
+    float: right;
+    height: 10vw;
+    width: 10vw;
+    border-radius: 50%;
+    border: 1px solid black;
+    padding: 0;
+}
+.index-card{
+    border-radius: 8%;
+    background-color: rgba(128,128,128,0.6);
+    border: darkgray 1px solid;
+    
+}
+.index-card a{
+    color: white;
+}
+.index-card:hover{
+    color: blue;
+    border: darkgray 3px solid;
+}
+.index-card a:hover{
+    color: black;
+}
+.index-card p{
+    padding: 2px;
+    font-size: medium;
+    
 }

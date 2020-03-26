@@ -2,16 +2,20 @@
 {% block content %}
 
 <div class="container">
-  <h1>Index Page</h1>
+  <h1 class="center index-h1">Find Your Food!</h1>
   {%for ft in trucks%}
 
-    <div class="card">
+    <div class="card index-card">
       <a href="{%url 'index_detail' ft.id%}">
-        <div class="card-content">
+        <div class="card-content row">
+          <div class="col s6">
           <span class="card-title">{{ ft.name }}</span>
-          <p>Name: {{ ft.name }}</p>
           <p>Style: {{ ft.style }}</p>
-          <p>Comments: {{ truck.comments.count }}</p>
+          <p>Comments: {{ ft.review.avg}}<p>
+          </div>
+            {%for photo in ft.truckphoto_set.all%}
+              <img src="{{photo.url}}" alt="" class="col s6" id="index-image">
+            {%endfor%}
         </div>
       </a>
       
