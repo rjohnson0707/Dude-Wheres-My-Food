@@ -3,29 +3,15 @@
 
 <!-- Main Truck Info -->
 <div class="row">
-    <div class="col s6">
-        <div class="container">
-            <h1>{{truck.name}}</h1>
-                <div>{{truck.style}}</div>
-                <div>{{truck.user}}</div>
-                <a href="{%url 'truck_update' truck.pk%}">Edit Truck Profile</a>
-                <br>
-                <a href="{% url 'truck_delete' truck.pk %}">Delete Truck</a>
-        </div>
-    </div>
-
-<!-- Review containter and info -->
-    <div class="container">
-        <h1>My Overall Review</h1>
-        <a href="{%url 'truck_reviews' truck.id%}">My Reviews</a>
-    </div>
 
     <!-- Photo container and info -->
-    <div class="container">
-        <div class="col s6">
+  
+    <div class="col s4">
+        <div class="container left s4">
+            <h2 class="center">{{truck.name}}</h2>
             <div class="">
             {% for photo in truck.truckphoto_set.all %}
-            <img class="profile" src="{{photo.url}}">
+            <img class="truck-profile" src="{{photo.url}}">
             {% empty %}
             <div>No Photos Uploaded</div>
             {% endfor %}
@@ -39,11 +25,33 @@
             {% else%}
             <form action="{% url 'delete_truck_photo' truck.id %}" method="POST">
                 {% csrf_token %}
-            <input type="submit" value="Delete Photo">
+                <input type="submit" value="Delete Photo">
+            </form> 
             {% endif %}
             </div>
         </div>
     </div>
+
+    <div class="col s3">
+        <div class="container">
+                <div>{{truck.style}}</div>
+                <div>{{truck.user}}</div>
+                <a href="{%url 'truck_update' truck.pk%}">Edit Truck Profile</a>
+                <br>
+                <a href="{% url 'truck_delete' truck.pk %}">Delete Truck</a>
+        </div>
+    </div>
+
+<!-- Review containter and info -->
+  
+        <div class="col s3">
+        <h1>My Overall Review: {{avg}}</h1>
+        <a href="{%url 'truck_reviews' truck.id%}">My Reviews</a>
+        </div>  
+
+
+
+
 </div>
 <!-- Menu container and information -->
 <div class="row ">

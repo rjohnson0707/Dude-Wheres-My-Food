@@ -1,8 +1,24 @@
 {%extends 'base.html'%}
 
 {%block content%}
+    
+<div class="container col s6 offset-s6">
+    <h1>Reviews for <span class="red-text">{{truck.name}}</span></h1>
     {%for review in reviews.all%}
-        {{review.text}}
+   
+        <ul class="collection col s6 offset-s6">
+            <li class="collection-item avatar">
+            {%for photo in review.user.profilephoto_set.all%}
+              <img src="{{photo.url}}" alt="" class="circle">
+            {%endfor%}
+              <span class="title">User: {{review.user}}</span>
+              <p>Rating: {{review.rating}} Date: {{review.created_date}}<br>
+                 {{review.text}}
+              </p>
+            </li>
+        </ul>
     {%endfor%}
-reviews
+
+    
+</div>
 {%endblock%}

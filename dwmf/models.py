@@ -91,11 +91,15 @@ class Review(models.Model):
     rating = models.IntegerField('Rating (1-5 allowed)', validators=[MinValueValidator(1), MaxValueValidator(5)], default=5)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='reviews')
-    avg = 0
 
     def __str__(self):
         return f"{self.user.username} at {self.created_date}: {self.text} {self.rating}"
 
+
+    def average(self):
+        avg += self.rating
+        print (avg)
+        return avg
 
     class Meta:
         ordering = ['-created_date']

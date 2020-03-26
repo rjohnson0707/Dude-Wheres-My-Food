@@ -6,11 +6,14 @@
 <div>{{truck.style}}</div>
 <div>{{truck.user}}</div>
 
-<h1>Favorites, models needed</h1>
-
 <div class="row">  
     <div class="col s12 m3 left">
-        <h1>Menu</h1>
+        <h3>Menu Items</h3>
+        {% for item in truck.menu_set.all%}
+          <p>{{item.food_name}}</p>
+          <p>{{item.description}}</p>
+          <p>${{item.price}}</p>
+        {%endfor%}
     </div>
     <div class="col s12 m3 right">
         <div>
@@ -63,7 +66,11 @@
       </tbody>
     </table>
   </div>
-  
+ 
+
+
+
+
 <!-- ######################### Google Maps!! -->
 <script>
     var geocoder;

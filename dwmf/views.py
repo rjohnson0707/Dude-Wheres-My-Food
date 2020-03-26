@@ -15,10 +15,10 @@ import boto3
 
 
 
-S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'dwmf'
-# S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
-# BUCKET = 'catcollector02'
+# S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+# BUCKET = 'dwmf'
+S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
+BUCKET = 'catcollector02'
 
 
 
@@ -46,9 +46,19 @@ class TruckDelete(LoginRequiredMixin, DeleteView):
 def truck_detail(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
     calendar_form = CalendarForm()
+    a = Review.objects.filter(truck_id=truck_id)
+    sum = 0
+    avg = 0
+
+    if len(a) > 0:
+        for rating in a:
+            sum += rating.rating
+            avg = sum / len(a)
+  
     return render(request, 'dwmf/truck_detail.html', {
         'truck': truck,
-        'calendar_form': calendar_form
+        'calendar_form': calendar_form,
+        'avg':avg
         })
 
 def menu_create(request, truck_id):
@@ -183,7 +193,8 @@ def add_review(request, truck_id):
 
 def truck_reviews(request, truck_id):
     reviews = Review.objects.filter(truck=truck_id)
-    return render(request, 'dwmf/truck_reviews.html', {'reviews':reviews, 'truck_id':truck_id})
+    truck = Truck.objects.get(id=truck_id)
+    return render(request, 'dwmf/truck_reviews.html', {'reviews':reviews, 'truck': truck})
 
 def delete_review(request, truck_id, review_id):
     review = Review.objects.get(id=review_id)
