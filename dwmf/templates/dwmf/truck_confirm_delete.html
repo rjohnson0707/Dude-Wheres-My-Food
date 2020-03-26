@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <h1>Delete Your Truck?</h1>
+<div class="container" id="delete-truck">
+  <h1 class="center delete-truck-h1">Delete Your Truck?</h1>
 
-  <h4>Are you sure you want to delete <span class="teal-text">{{ object.name }}</span>?</h4>
+  <h4>Are you sure you want to delete <span class="black-text">{{ object.name }}</span>?</h4>
 
   <form action="" method="POST">
     {% csrf_token %}
-    <input type="submit" value="Delete" class="btn">
+    <input type="submit" value="Delete" class="btn center delete-truck-btn">
     <a href="{% url 'truck_detail' truck.id %}">Cancel</a>
   </form>
 </div>
