@@ -42,13 +42,13 @@
         <div class="card index-card">
           <a href="{%url 'index_detail' tk.id%}">
             <div class="card-content row">
-              <div class="col s6">
-              <span class="card-title">{{ tk.name }}</span>
-              <p>Style: {{ tk.style }}</p>
-              <p>Comments: {{ tk.review.avg}}<p>
+              <div class="col s4">
+                <span class="card-title">{{ tk.name }}</span>
+                <p><span class="black-text">Style:</span> {{ tk.style }}</p>
+                <p><span class="black-text">Comments:</span> {{ tk.reviews.count}}<p>
               </div>
                 {%for photo in tk.truckphoto_set.all%}
-                  <img src="{{photo.url}}" alt="" class="col s6" id="index-image">
+                  <img src="{{photo.url}}" alt="" class="col s4" id="index-image">
                 {%endfor%}
             </div>
           </a> 

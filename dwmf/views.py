@@ -42,6 +42,7 @@ class TruckDelete(LoginRequiredMixin, DeleteView):
     model = Truck
     success_url = '/trucks/'
 ##########################view definitions here
+
 @login_required
 def truck_detail(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
@@ -60,12 +61,14 @@ def truck_detail(request, truck_id):
         'calendar_form': calendar_form,
         'avg':avg
         })
+
 @login_required
 def menu_create(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
     menu_form = MenuForm()
 
     return render(request, 'dwmf/menu_form.html',{'truck':truck, 'menu_form': menu_form})
+
 @login_required
 def menu_new(request, truck_id):
     truck = Truck.objects.get(id=truck_id)
@@ -113,6 +116,7 @@ def profile(request, pk=None):
         profile = request.user.profile
     trucks = Truck.objects.all()
     trucks_user_doesnt_favorite = Truck.objects.exclude(id__in = profile.trucks.all().values_list('id'))
+    truck = trucks.first()
     return render(request, 'registration/profile.html', {'user': user, 'trucks': trucks, 'trucks_user_doesnt_favorite': trucks_user_doesnt_favorite})
 
 @login_required
@@ -159,10 +163,12 @@ def truck_photo(request, truck_id):
         except:
             print('An error occurred uploading the file to the cloud')
     return redirect('truck_detail', truck_id=truck_id)
+
 @login_required
 def assoc_truck(request, user_id, truck_id):
     Profile.objects.get(user_id=user_id).trucks.add(truck_id)
     return redirect(reverse('profile'))
+
 @login_required
 def unassoc_truck(request, user_id, tk_id):
     Profile.objects.get(user_id=user_id).trucks.remove(tk_id)
@@ -186,6 +192,7 @@ def trucks_info(request, truck_id):
     else: 
         avg = 'None: Be the first to review!'
     return render(request, 'trucks/index_detail.html', {'truck': truck, 'review_form': review_form, 'avg': avg})
+
 @login_required
 def add_review(request, truck_id):
     form = ReviewForm(request.POST)
@@ -197,11 +204,13 @@ def add_review(request, truck_id):
         new_review.created_date = datetime.now()
         new_review.save()
     return redirect('index_detail', truck_id=truck_id)
+
 @login_required
 def truck_reviews(request, truck_id):
     reviews = Review.objects.filter(truck=truck_id)
     truck = Truck.objects.get(id=truck_id)
     return render(request, 'dwmf/truck_reviews.html', {'reviews':reviews, 'truck': truck})
+
 @login_required
 def delete_review(request, truck_id, review_id):
     review = Review.objects.get(id=review_id)
@@ -210,6 +219,7 @@ def delete_review(request, truck_id, review_id):
         return redirect('index_detail', truck_id=truck_id)
     else:
         return render(request, 'trucks/index_detail.html', truck_id=truck_id)
+
 @login_required
 def add_calendar(request, truck_id):
    

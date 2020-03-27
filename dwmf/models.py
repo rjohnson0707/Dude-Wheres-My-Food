@@ -75,11 +75,16 @@ class Calendar(models.Model):
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.date}, {self.time}, {self.location}'
+        return f'{self.date}, {self.start_time},{self.end_time}, {self.location}'
     
     def date_checker(self):
         date_check = date.today()
         return self.date < date_check
+    
+    def where_today(self):
+        date_check = date.today()
+        if date_check == self.date:
+            return self
 
     class Meta:
         ordering = ['-date']
