@@ -153,7 +153,10 @@ label{
     background-color: rgba(128,128,128,0.8);
     outline-style: ridge;
     padding: 0 2px;
-    font-size: larger;
+}
+.intro p{
+    font-size: x-large;
+    font-family: Helvetica,Arial,  sans-serif;
 }
 .home-h1{
     text-shadow: 3px 3px black;
@@ -197,8 +200,9 @@ label{
 }
 #index-image{
     float: right;
-    height: 10vw;
-    width: 10vw;
+    position: relative;
+    height: 5vw;
+    width: 5vw;
     border-radius: 50%;
     border: 1px solid black;
     padding: 0;
@@ -333,6 +337,7 @@ label{
     border-radius: 20%;
     height: 10vw;
     width: 20vw;
+    border: 1px black solid;
 }
 .truck-detail-h2{
     text-shadow: 3px 3px black;
@@ -343,11 +348,39 @@ label{
 }
 .calendar-h1{
     text-shadow: 3px 3px black;
+    margin: 35px;
 }
 
-p{
-    color: black;
+.add-calendar{
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+    outline-style: ridge;
+    outline-color: white;
+    padding: 0 8px;
 }
-li{
-    color: black;
+#calendar-holder{
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+
+    padding: 0 8px;  
+}
+.calendar-ul{
+    outline-style: ridge;
+    outline-color: white;
+}
+.menu-h1{
+    text-shadow: 3px 3px black; 
+}
+#menu-card{
+    color: white;
+    background-color: rgba(128,128,128,0.8);
+    outline-style: ridge;
+    outline-color: white;
+    padding: 0 8px; 
+}
+.row a{
+    color: white;
+}
+.row a:hover{
+    color: blue;
 }

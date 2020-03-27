@@ -15,20 +15,15 @@
 <body>
     <nav class="head-nav">
         <div class="nav-wrapper">
-            <img class='logo' src="/static/images/foodtruck.jpg" alt=""> 
+            <img class="center logo" src="/static/images/foodtruck.jpg" alt=""> 
             <!-- <i class="large material-icons">local_shipping</i> -->
             <a href="/" class="banner">Dude! Where's My Food?</a>
-
-                {% if user.is_authenticated %}
-            <ul class="left">
+            <ul class="right">
                 {%if user.truck_set.count%}
                 <li><a href="{%url 'truck_detail' user.truck_set.first.id%}">Update Your Truck</a></li>
                 {%else%}
                 <li><a href="{%url 'truck_register' %}">Register a Truck</a></li>
                 {%endif%}
-            </ul>
-            {%endif%}
-            <ul class="right">
                 <li><a href="{% url 'index' %}">Food Trucks</a></li>
                 {% if user.is_authenticated %}
                
