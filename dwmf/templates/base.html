@@ -19,10 +19,12 @@
             <!-- <i class="large material-icons">local_shipping</i> -->
             <a href="/" class="banner">Dude! Where's My Food?</a>
             <ul class="right">
+                {% if user.is_authenticated%}
                 {%if user.truck_set.count%}
                 <li><a href="{%url 'truck_detail' user.truck_set.first.id%}">Update Your Truck</a></li>
                 {%else%}
                 <li><a href="{%url 'truck_register' %}">Register a Truck</a></li>
+                {%endif%}
                 {%endif%}
                 <li><a href="{% url 'index' %}">Food Trucks</a></li>
                 {% if user.is_authenticated %}

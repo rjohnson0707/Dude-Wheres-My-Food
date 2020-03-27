@@ -37,7 +37,6 @@ class EditUser(UserChangeForm):
             'last_name',
             'username',
             'email',
-            'password',
             )
             
     def save(self, commit=True):
