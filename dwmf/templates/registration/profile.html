@@ -24,8 +24,8 @@
   </div>
   <div id="profile-info">
     <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-    <p>Username: {{ user.username}}</p>
-    <p>Email: {{ user.email }}</p>
+    <p>Username: <span id="user-info">{{ user.username}}</span></p>
+    <p>Email: <span id="user-info">{{ user.email }}</span></p>
     <p><a href="{% url 'edit_user' %}" id="edit-info">Edit {{user.first_name}}'s Information</a></p>
   </div>
   <!-- <p>Bio: {{ user.bio }}</p> -->
@@ -36,7 +36,7 @@
     <div class="row">
       <h3 id="fav-h3">{{ user.first_name }}'s Favorite Trucks</h3>
       <a class='dropdown-trigger btn' href='#' data-target='dropdown1' id="assoc-button">Available Food Trucks</a>
-      <div class="col s12 m6">
+      <div class="col s12 m6" id="fav-trucks">
         {% if user.profile.trucks.count %}
         {% for tk in user.profile.trucks.all %}
         <div class="card index-card">

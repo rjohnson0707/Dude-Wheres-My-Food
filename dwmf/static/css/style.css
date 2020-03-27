@@ -67,6 +67,7 @@ label{
 #profile-container {
     margin-left: 10px;
     width: 100vw;
+    max-width: none;
 }
 
 #profile-container h1 {
@@ -104,6 +105,15 @@ label{
 
 #sub-btn {
     width: -webkit-fill-available;
+}
+
+#fav-trucks {
+    padding: 0px 30vw;
+    width: -webkit-fill-available;
+}
+
+#user-info {
+    color: white;
 }
 
 /* Edit page */
