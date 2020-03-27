@@ -24,13 +24,14 @@
           <p>${{item.price}}</p>
         {%endfor%}
     </div>
-    <div class="col s12 m3" id="calender-info">  
-        <ul class="collection ">
-            <li class="collection-header" style="background-color: bisque; opacity: 0.6;">Calendar</li>
+    <div class="col s12 m3" id="calender-info" style="background-color: bisque; opacity: 0.6; width: 30vw;  margin-left: 20px;">  
+        <ul>
+            <li style="background-color: bisque; opacity: 1.0; text-align: center; font-size: 32px;">Calendar</li>
             {%for calendar in truck.calendar_set.all%}
-            <li class="collection-item">{{calendar.date}}</li>
-            <li class="collection-item">{{calendar.time}}</li>
-            <li class="collection-item">{{calendar.location}}</li>
+            <li>{{calendar.date}}</li>
+            <li>{{calendar.start_time}}-{{calendar.end_time}}</li>
+            <li>{{calendar.location}}</li>
+            <hr>
             {%endfor%}
         </ul>
     </div> 
