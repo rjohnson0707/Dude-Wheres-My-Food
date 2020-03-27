@@ -43,6 +43,11 @@
     </div>
   </div>
   
+</div>
+
+{% if user.is_authenticated%}
+
+ 
   <div class="review_form" id="signup" style="margin-left: 10px;">
     <h6 id="h6">Leave A Review</h6>
       <form method="post" action="{% url 'add_review' truck.id %}">
@@ -75,7 +80,31 @@
       </tbody>
     </table>
   </div>
- 
+    <div class="reviews right-align">
+      <table class="striped">
+        <thead>
+          <tr><th>Date</th><th>Reviewer</th><th>Review</th><th>Rating</th><th>Average = {{avg}}</th></tr>
+        </thead>
+        <tbody>
+            {% for review in truck.reviews.all %}
+            <tr>
+              <td>{{review.created_date}}</td>
+              <td>{{review.user.first_name}} {{review.user.last_name}}</td>
+              <td>{{review.text}}</td>
+              <td>{{review.rating}}</td>
+              {% if review.user == request.user %}
+              <td><form method="POST" action="{% url 'delete_review' truck.id review.id %}">{%csrf_token%} <button type="submit" class="btn">Delete?</button></form></td>
+              {% else %}
+              <td></td>
+              {%endif%}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+ {%else%}
+ {%endif%} 
 
 
 
@@ -96,9 +125,6 @@
 
     function codeAddress() {
         var address = document.getElementById('address').value;
-        console.log(typeof(address))
-        // var address = `${truck.calendar.location}`
-        console.log(address)
         geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
@@ -106,11 +132,16 @@
                 map: map,
                 position: results[0].geometry.location
             });
+            google.maps.event.addListener(marker, 'click', function() {
+            window.location.href = `https://www.google.com/maps/dir/?AIzaSyAkd4iwSaCRNF-mp1p9kuxtTlZzBBVBTsE=1&querry=`;
+            });
+            console.log(results[0].geometry)
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
         });
     }
+    
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkd4iwSaCRNF-mp1p9kuxtTlZzBBVBTsE&callback=initMap"
     async defer></script> 

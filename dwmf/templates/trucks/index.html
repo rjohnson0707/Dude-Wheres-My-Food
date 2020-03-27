@@ -2,23 +2,27 @@
 {% block content %}
 
 <div class="container">
-  <h1 class="center index-h1">Find Your Food!</h1>
-  {%for ft in trucks%}
-    <div class="card index-card">
-      <a href="{%url 'index_detail' ft.id%}">
-        <div class="card-content row">
-          <div class="col s6">
-          <span class="card-title">{{ ft.name }}</span>
-          <p>Style: {{ ft.style }}</p>
-          <p>Comments: {{ ft.review.avg}}<p>
+  <div class="row">
+    <div class="col s12">
+      <h1 class="center index-h1">Find Your Food!</h1>
+      {%for ft in trucks%}
+      <div class="card index-card col s12 m8 push-m2">
+        <a href="{%url 'index_detail' ft.id%}">
+          <div class="card-content row">
+            <div class="col s6">
+            <span class="card-title"><h3>{{ ft.name }}</h3></span>
+            <p><span class="black-text">Style:</span> {{ ft.style }}</p>
+            <p><span class="black-text">Comments:</span> {{ ft.reviews.count}}<p>
+            </div>
+              {%for photo in ft.truckphoto_set.all%}
+                <img src="{{photo.url}}" alt="" class="col s6" id="index-image">
+              {%endfor%}
           </div>
-            {%for photo in ft.truckphoto_set.all%}
-              <img src="{{photo.url}}" alt="" class="col s6" id="index-image">
-            {%endfor%}
-        </div>
-      </a> 
+        </a> 
+      </div>
+    {%endfor%}
     </div>
-  {%endfor%}
+  </div>
 </div>
 
 
