@@ -54,8 +54,8 @@ def truck_detail(request, truck_id):
     if len(a) > 0:
         for rating in a:
             sum += rating.rating
-            avg = sum / len(a)
-  
+            average = sum / len(a)  
+            avg = str(round(average, 1))
     return render(request, 'dwmf/truck_detail.html', {
         'truck': truck,
         'calendar_form': calendar_form,
