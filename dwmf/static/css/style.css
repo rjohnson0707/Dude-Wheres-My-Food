@@ -139,10 +139,9 @@ label{
 
 .reviews {
     border: 2px solid black;
-    padding-bottom: 10px;
-    width: 100vw;
+    margin-bottom: 15px;
     height: 400px;
-    margin: 40px 5px 0px 5px;
+    margin: 40px 5px 15px 5px;
     background-color: white;
     color: black;
 }
@@ -411,3 +410,6 @@ li{
     width: 30vw;
 }
 
+#tk-detail p {
+    color: black;
+}

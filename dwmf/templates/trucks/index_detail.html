@@ -24,13 +24,14 @@
           <p>${{item.price}}</p>
         {%endfor%}
     </div>
-    <div class="col s12 m3" id="calender-info">  
-        <ul class="collection ">
-            <li class="collection-header" style="background-color: bisque; opacity: 0.6;">Calendar</li>
+    <div class="col s12 m3" id="calender-info" style="background-color: bisque; opacity: 0.6; width: 30vw;  margin-left: 20px;">  
+        <ul>
+            <li style="background-color: bisque; opacity: 1.0; text-align: center; font-size: 32px;">Calendar</li>
             {%for calendar in truck.calendar_set.all%}
-            <li class="collection-item">{{calendar.date}}</li>
-            <li class="collection-item">{{calendar.time}}</li>
-            <li class="collection-item">{{calendar.location}}</li>
+            <li>{{calendar.date}}</li>
+            <li>{{calendar.start_time}}-{{calendar.end_time}}</li>
+            <li>{{calendar.location}}</li>
+            <hr>
             {%endfor%}
         </ul>
     </div> 
@@ -56,14 +57,13 @@
           <input type="submit" class="btn" value="Add Review" id="h6">
       </form>   
   </div>
-
-  <div class="reviews">
-    <h3 id="h6">Reviews</h3>
-    <table class="striped">
-      <thead>
-        <tr><th>Date</th><th>Reviewer</th><th>Review</th><th>Rating</th><th>Average = {{avg}}</th></tr>
-      </thead>
-      <tbody>
+  <div class="container">
+    <div class="reviews">
+      <table class="striped">
+        <thead>
+          <tr><th>Date</th><th>Reviewer</th><th>Review</th><th>Rating</th><th>Average = {{avg}}</th></tr>
+        </thead>
+        <tbody>
           {% for review in truck.reviews.all %}
           <tr>
             <td>{{review.created_date}}</td>
@@ -76,33 +76,11 @@
             <td></td>
             {%endif%}
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-    <div class="reviews right-align">
-      <table class="striped">
-        <thead>
-          <tr><th>Date</th><th>Reviewer</th><th>Review</th><th>Rating</th><th>Average = {{avg}}</th></tr>
-        </thead>
-        <tbody>
-            {% for review in truck.reviews.all %}
-            <tr>
-              <td>{{review.created_date}}</td>
-              <td>{{review.user.first_name}} {{review.user.last_name}}</td>
-              <td>{{review.text}}</td>
-              <td>{{review.rating}}</td>
-              {% if review.user == request.user %}
-              <td><form method="POST" action="{% url 'delete_review' truck.id review.id %}">{%csrf_token%} <button type="submit" class="btn">Delete?</button></form></td>
-              {% else %}
-              <td></td>
-              {%endif%}
-            </tr>
           {% endfor %}
         </tbody>
       </table>
-    </div>
-
+    </div> 
+  </div>
  {%else%}
  {%endif%} 
 
