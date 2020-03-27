@@ -188,7 +188,8 @@ def trucks_info(request, truck_id):
     if len(a) > 0:
         for rating in a:
             sum += rating.rating
-        avg = sum / len(a)   
+        average = sum / len(a)  
+        avg = str(round(average, 1))
     else: 
         avg = 'None: Be the first to review!'
     return render(request, 'trucks/index_detail.html', {'truck': truck, 'review_form': review_form, 'avg': avg})

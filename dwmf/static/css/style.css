@@ -128,6 +128,9 @@ label{
     margin-bottom: 5px;
 }
 
+#h6 {
+    text-align: center;
+}
 
 
 .review {
@@ -137,14 +140,17 @@ label{
 .reviews {
     border: 2px solid black;
     padding-bottom: 10px;
-    width: 49vw;
+    width: 100vw;
     height: 400px;
+    margin: 40px 5px 0px 5px;
+    background-color: white;
+    color: black;
 }
 
 .review_form {
     border: 2px solid black;
     width: 49vw;
-    height: 200px;
+    height: 225px;
 }
 /* Home page */
 .intro{
@@ -384,3 +390,24 @@ label{
 .row a:hover{
     color: blue;
 }
+li{
+    color: black;
+}
+
+#tk-detail {
+    padding-top: 10vw;
+    padding-left: 5vw;
+}
+
+#menu-item {
+    color: black;
+}
+
+#food-title {
+    text-decoration: underline;
+}
+
+#calender-info {
+    width: 30vw;
+}
+
