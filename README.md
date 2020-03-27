@@ -1,7 +1,7 @@
 # Dude Wheres My Food
 Dude! Where's My Food?
 
-DWMF is an app built to allow users and food truck owners to come together in one place. For users its about being able to search for food trucks and see where they will be and what they are serving, with the ability to favorite their prefered trucks. For food truck owners its about being able to register their truck , set where and when they will be, and what they are serving! All bundled in one place for everyone.
+DWMF is an app built to allow users and food truck owners to come together in one place. For users its about being able to search for food trucks and see where they will be and what they are serving, with the ability to favorite their preferred trucks. For food truck owners its about being able to register their truck , set where and when they will be, and what they are serving! All bundled in one place for everyone.
 
 
 This project was made using:
